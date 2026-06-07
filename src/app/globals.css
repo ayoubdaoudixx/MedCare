@@ -1,26 +1,337 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* MEDCARE brand colors */
+  --color-brand: #1080B0;
+  --color-brand-dark: #0C6488;
+  --color-brand-deeper: #08445E;
+  --color-brand-deep: #062E40;
+  --color-brand-light: #3DA3CD;
+  --color-brand-xlight: #9AD0E6;
+  --color-tint: #E9F4FA;
+  --color-tint-2: #F3FAFD;
+  --color-emergency: #E63A4B;
+  --color-emergency-dark: #C8283A;
+  --color-emergency-tint: #FDECEE;
+  --color-ink: #0E2A38;
+  --color-ink-soft: #2B4655;
+  --color-muted-text: #5E7888;
+  --color-line: #E3EDF3;
+  --color-line-2: #EEF4F8;
+  --color-surface: #F4F9FC;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #F4F9FC;
+  --foreground: #0E2A38;
+  --card: #ffffff;
+  --card-foreground: #0E2A38;
+  --popover: #ffffff;
+  --popover-foreground: #0E2A38;
+  --primary: #1080B0;
+  --primary-foreground: #ffffff;
+  --secondary: #E9F4FA;
+  --secondary-foreground: #0C6488;
+  --muted: #F3FAFD;
+  --muted-foreground: #5E7888;
+  --accent: #E9F4FA;
+  --accent-foreground: #08445E;
+  --destructive: #E63A4B;
+  --border: #E3EDF3;
+  --input: #E3EDF3;
+  --ring: #3DA3CD;
+  --chart-1: #1080B0;
+  --chart-2: #E63A4B;
+  --chart-3: #3DA3CD;
+  --chart-4: #0C6488;
+  --chart-5: #9AD0E6;
+  --radius: 0.75rem;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0E2A38;
+  --sidebar-primary: #1080B0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #E9F4FA;
+  --sidebar-accent-foreground: #08445E;
+  --sidebar-border: #E3EDF3;
+  --sidebar-ring: #3DA3CD;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply scroll-smooth;
+    font-family: 'Manrope', system-ui, sans-serif;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 {
+    font-family: 'Tajawal', system-ui, sans-serif;
+    letter-spacing: 0;
+  }
+  [dir="rtl"] body {
+    font-family: 'Tajawal', system-ui, sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom animations */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Slow drift for aurora blobs */
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(4%, -6%, 0) scale(1.08); }
+  66%  { transform: translate3d(-5%, 4%, 0) scale(0.96); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+/* Animated gradient text / borders */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Diagonal sheen sweep */
+@keyframes shimmer {
+  0% { transform: translateX(-150%) skewX(-12deg); }
+  100% { transform: translateX(250%) skewX(-12deg); }
+}
+
+/* Soft breathing glow */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
+
+/* 3D vertical-axis spin (rotating beacon) */
+@keyframes spin-y {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+/* Sweeping conic beam (emergency light) */
+@keyframes beam-sweep {
+  to { transform: rotate(360deg); }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 4s ease-in-out 1s infinite;
+}
+
+.animate-float-delayed-2 {
+  animation: float 4s ease-in-out 2s infinite;
+}
+
+.animate-aurora {
+  animation: aurora-drift 22s ease-in-out infinite;
+}
+.animate-aurora-slow {
+  animation: aurora-drift 30s ease-in-out infinite;
+}
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+.animate-spin-y {
+  animation: spin-y 2.6s linear infinite;
+  transform-style: preserve-3d;
+}
+.animate-beam {
+  animation: beam-sweep 2.6s linear infinite;
+}
+
+/* ───────────────────────── Premium utilities ───────────────────────── */
+
+/* Animated gradient headline text */
+.text-gradient-brand {
+  background-image: linear-gradient(110deg, var(--color-brand-dark), var(--color-brand), var(--color-brand-light), var(--color-brand));
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+/* Glassmorphism surface (light) */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 14px 40px -18px rgba(10, 68, 94, 0.35);
+}
+
+/* Glass surface on dark sections */
+.glass-dark {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* Subtle grid overlay (for hero / dark bands) */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(16, 128, 176, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 128, 176, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Dotted texture */
+.bg-dots {
+  background-image: radial-gradient(rgba(16, 128, 176, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Radial fade mask (top-centered) */
+.mask-fade {
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 60%, transparent 100%);
+}
+
+/* Elevation scale (consistent shadows) */
+.shadow-soft { box-shadow: 0 6px 20px -10px rgba(10, 68, 94, 0.28); }
+.shadow-card { box-shadow: 0 14px 40px -18px rgba(10, 68, 94, 0.35); }
+.shadow-float { box-shadow: 0 24px 60px -22px rgba(10, 68, 94, 0.45); }
+.shadow-brand-glow { box-shadow: 0 18px 50px -16px rgba(16, 128, 176, 0.5); }
+.shadow-emergency-glow { box-shadow: 0 16px 40px -12px rgba(230, 58, 75, 0.5); }
+
+/* Animated gradient ring/border wrapper */
+.gradient-ring {
+  position: relative;
+}
+.gradient-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(130deg, var(--color-brand-light), transparent 40%, transparent 60%, var(--color-brand));
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: gradient-shift 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Diagonal sheen overlay — apply .sheen on a relative, overflow-hidden parent */
+.sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 60%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: translateX(-150%) skewX(-12deg);
+  pointer-events: none;
+}
+.group:hover .sheen::after {
+  animation: shimmer 0.9s ease-out;
+}
+
+/* Respect reduced motion across all custom animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-pulse-ring,
+  .animate-float,
+  .animate-float-delayed,
+  .animate-float-delayed-2,
+  .animate-aurora,
+  .animate-aurora-slow,
+  .animate-glow-pulse,
+  .animate-spin-y,
+  .animate-beam {
+    animation: none !important;
+  }
 }
