@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight, Check, Home as HomeIcon } from "lucide-react";
 import type { ServiceData } from "@/lib/services-data";
 import { PRICING_DISCLAIMER } from "@/lib/services-data";
@@ -12,6 +13,21 @@ import { AppIcon } from "@/components/app-icon";
 
 const TEL = "tel:+212522000000";
 const WHATSAPP = "https://wa.me/212600000000";
+
+// Hero illustration per service — the same artwork used in the homepage
+// service cards, keyed by slug. `medecin-domicile` is a transparent 3D render
+// best shown contained; the rest are photos shown edge-to-edge.
+const serviceImages: Record<string, string> = {
+  "ambulance": "/ambulance.png",
+  "medecin-domicile": "/medcare3d.png",
+  "infirmiere-domicile": "/infirmière à domicile.png",
+  "garde-malade": "/garde-malade.png",
+  "teleconsultation": "/téléconsultation.png",
+  "prelevement-analyses": "/prélèvement  analyses.png",
+  "rapatriement": "/rapatriement.png",
+  "equipe-evenementielle": "/équipe événementielle.jpg",
+  "personne-agee": "/personne âgée.jpg",
+};
 
 // Small reusable eyebrow chip — identical pattern to the homepage sections.
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -63,10 +79,26 @@ export function ServicePage({ service }: { service: ServiceData }) {
           <div className="absolute -start-24 -top-24 w-72 h-72 rounded-full bg-white/10 blur-3xl animate-aurora" />
           <div className="absolute -end-24 -bottom-24 w-72 h-72 rounded-full bg-emergency/15 blur-3xl animate-aurora-slow" />
 
-          <div className="max-w-[1240px] mx-auto px-5 py-16 lg:py-24 relative z-10">
-            <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-12 items-center">
+          {/* Full-bleed image panel — desktop & up */}
+          <div className="hidden lg:block absolute inset-y-12 end-0 w-[46%] z-[5]">
+            <div className="gradient-ring relative h-full w-full overflow-hidden rounded-s-[40px] border border-white/20 shadow-float">
+              <div className="absolute inset-0 bg-dots opacity-20" />
+              <Image
+                src={serviceImages[service.slug] ?? "/medcare3d.png"}
+                alt={service.name}
+                fill
+                priority
+                sizes="50vw"
+                className={service.slug === "medecin-domicile" ? "object-contain p-10" : "object-cover"}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/45 via-transparent to-transparent" />
+            </div>
+          </div>
+
+          <div className="max-w-[1240px] mx-auto px-5 relative z-10">
+            <div className="grid lg:grid-cols-2 items-center gap-10 lg:gap-12">
               {/* Text */}
-              <ScrollReveal>
+              <ScrollReveal className="py-12 lg:py-[120px]">
                 {urgent && (
                   <span className="inline-flex items-center gap-2.5 bg-emergency text-white px-4 py-2 rounded-full text-[13px] font-['Plus_Jakarta_Sans'] font-extrabold tracking-[0.12em] uppercase mb-5 shadow-emergency-glow">
                     <span className="relative flex items-center justify-center">
@@ -102,16 +134,18 @@ export function ServicePage({ service }: { service: ServiceData }) {
                 </div>
               </ScrollReveal>
 
-              {/* Image placeholder (styled div with service icon) */}
-              <ScrollReveal delay={0.1} direction="right">
-                <div className="relative mx-auto w-full max-w-[420px]">
-                  <div className="absolute -inset-5 -z-10 rounded-[44px] bg-white/10 blur-2xl animate-glow-pulse" />
-                  <div className="gradient-ring relative aspect-square rounded-[34px] bg-gradient-to-br from-white/20 via-white/10 to-transparent border border-white/20 grid place-items-center overflow-hidden">
-                    <div className="absolute inset-0 bg-dots opacity-20" />
-                    <div className="relative w-28 h-28 lg:w-36 lg:h-36 rounded-[28px] bg-white/15 backdrop-blur-md grid place-items-center animate-float shadow-float">
-                      <AppIcon name={service.icon} className="w-14 h-14 lg:w-20 lg:h-20 text-white" />
-                    </div>
-                  </div>
+              {/* Hero illustration — mobile / tablet (stacked) */}
+              <ScrollReveal delay={0.1} direction="right" className="lg:hidden pb-12">
+                <div className="gradient-ring relative aspect-[4/3] w-full overflow-hidden rounded-[28px] border border-white/20 shadow-float">
+                  <div className="absolute inset-0 bg-dots opacity-20" />
+                  <Image
+                    src={serviceImages[service.slug] ?? "/medcare3d.png"}
+                    alt={service.name}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className={service.slug === "medecin-domicile" ? "object-contain p-8" : "object-cover"}
+                  />
                 </div>
               </ScrollReveal>
             </div>
@@ -119,7 +153,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
         </section>
 
         {/* ────────────────── ② DESCRIPTION + STAT ────────────────── */}
-        <section className="py-20 lg:py-24">
+        <section className="py-12 lg:py-16">
           <div className="max-w-[1240px] mx-auto px-5">
             <div className="grid lg:grid-cols-[1.4fr_0.6fr] gap-10 lg:gap-14 items-start">
               <ScrollReveal>
@@ -154,7 +188,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
         </section>
 
         {/* ─────────────────── ③ POURQUOI MEDCARE ─────────────────── */}
-        <section className="py-20 lg:py-24 bg-surface">
+        <section className="py-12 lg:py-16 bg-surface">
           <div className="max-w-[1240px] mx-auto px-5">
             <ScrollReveal className="max-w-[660px] mb-12">
               <Eyebrow>Pourquoi MEDCARE&nbsp;?</Eyebrow>
@@ -167,8 +201,8 @@ export function ServicePage({ service }: { service: ServiceData }) {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {service.advantages.map((adv, i) => (
                 <ScrollReveal key={adv.title} delay={0.08 * i}>
-                  <div className="group h-full bg-white rounded-2xl border border-line-2 shadow-card p-6 hover:-translate-y-1 transition-transform duration-300">
-                    <div className="w-12 h-12 rounded-xl bg-tint flex items-center justify-center mb-4 group-hover:bg-gradient-to-br group-hover:from-brand group-hover:to-brand-dark group-hover:shadow-brand-glow transition-all duration-300">
+                  <div className="group h-full bg-white rounded-2xl border border-line-2 shadow-card p-6 text-center hover:-translate-y-1 transition-transform duration-300">
+                    <div className="w-12 h-12 rounded-xl bg-tint flex items-center justify-center mx-auto mb-4 group-hover:bg-gradient-to-br group-hover:from-brand group-hover:to-brand-dark group-hover:shadow-brand-glow transition-all duration-300">
                       <AppIcon name={adv.icon} className="w-6 h-6 text-brand group-hover:text-white transition-colors duration-300" />
                     </div>
                     <h3 className="text-base font-['Plus_Jakarta_Sans'] font-bold mb-1.5 group-hover:text-brand transition-colors duration-300">
@@ -183,7 +217,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
         </section>
 
         {/* ─────────────────── ④ DÉTAILS DU SERVICE ────────────────── */}
-        <section className="py-20 lg:py-24">
+        <section className="py-12 lg:py-16">
           <div className="max-w-[1240px] mx-auto px-5">
             <ScrollReveal className="max-w-[660px] mb-12">
               <Eyebrow>Détails</Eyebrow>
@@ -198,7 +232,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
         </section>
 
         {/* ─────────────────────── ⑤ TARIFS ───────────────────────── */}
-        <section className="py-20 lg:py-24 bg-surface">
+        <section className="py-12 lg:py-16 bg-surface">
           <div className="max-w-[1240px] mx-auto px-5">
             <ScrollReveal className="max-w-[660px] mb-12">
               <Eyebrow>Tarifs</Eyebrow>
@@ -262,7 +296,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
         </section>
 
         {/* ─────────────────── ⑥ COMMENT RÉSERVER ──────────────────── */}
-        <section className="py-20 lg:py-24">
+        <section className="py-12 lg:py-16">
           <div className="max-w-[1240px] mx-auto px-5">
             <ScrollReveal className="max-w-[660px] mx-auto text-center mb-12">
               <div className="flex justify-center"><Eyebrow>Comment réserver&nbsp;?</Eyebrow></div>
@@ -297,7 +331,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
         </section>
 
         {/* ──────────────────────── ⑦ FAQ ──────────────────────────── */}
-        <section className="py-20 lg:py-24 bg-surface">
+        <section className="py-12 lg:py-16 bg-surface">
           <div className="max-w-[820px] mx-auto px-5">
             <ScrollReveal className="text-center mb-12">
               <div className="flex justify-center"><Eyebrow>FAQ</Eyebrow></div>
@@ -325,7 +359,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
         </section>
 
         {/* ──────────────────── ⑧ CTA BANNER ───────────────────────── */}
-        <section className="py-20 lg:py-24">
+        <section className="py-12 lg:py-16">
           <div className="max-w-[1240px] mx-auto px-5">
             <ScrollReveal>
               <div
@@ -401,8 +435,8 @@ function ServiceDetailsBlock({ service }: { service: ServiceData }) {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {d.items.map((item, i) => (
           <ScrollReveal key={item.name} delay={0.08 * i}>
-            <div className="group h-full bg-white rounded-2xl border border-line-2 shadow-card p-6 hover:-translate-y-1 hover:border-brand-xlight transition-all duration-300">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-tint to-brand-xlight/30 flex items-center justify-center mb-4 group-hover:from-brand group-hover:to-brand-dark transition-all duration-300">
+            <div className="group h-full bg-white rounded-2xl border border-line-2 shadow-card p-6 text-center hover:-translate-y-1 hover:border-brand-xlight transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-tint to-brand-xlight/30 flex items-center justify-center mx-auto mb-4 group-hover:from-brand group-hover:to-brand-dark transition-all duration-300">
                 <AppIcon name={item.icon} className="w-7 h-7 text-brand group-hover:text-white transition-colors duration-300" />
               </div>
               <h3 className="text-[17px] font-['Plus_Jakarta_Sans'] font-bold mb-2 group-hover:text-brand transition-colors duration-300">
@@ -410,7 +444,7 @@ function ServiceDetailsBlock({ service }: { service: ServiceData }) {
               </h3>
               <p className="text-muted-text text-sm leading-relaxed mb-4">{item.body}</p>
               {item.features && (
-                <ul className="space-y-2 pt-4 border-t border-line-2">
+                <ul className="space-y-2 pt-4 border-t border-line-2 text-start">
                   {item.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-[13.5px] text-ink-soft">
                       <Check className="w-4 h-4 text-brand shrink-0" />

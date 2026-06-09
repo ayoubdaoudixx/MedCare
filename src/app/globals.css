@@ -183,6 +183,12 @@
   to { transform: rotate(360deg); }
 }
 
+/* Chatbot typing dots */
+@keyframes dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); }
+}
+
 .animate-pulse-ring {
   animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

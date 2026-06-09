@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useI18n } from "@/lib/i18n-context";
 import { Separator } from "@/components/ui/separator";
 import { AppIcon } from "@/components/app-icon";
@@ -12,6 +13,24 @@ const socials = [
   { name: "LinkedIn", Icon: LinkedInIcon, href: "#" },
   { name: "WhatsApp", Icon: WhatsAppIcon, href: "https://wa.me/212600000000" },
 ];
+
+// Footer "Services" column → each links to its dedicated service page.
+const footerServices = [
+  { key: "s1_t", slug: "ambulance" },
+  { key: "s2_t", slug: "medecin-domicile" },
+  { key: "s3_t", slug: "infirmiere-domicile" },
+  { key: "s5_t", slug: "teleconsultation" },
+  { key: "s7_t", slug: "rapatriement" },
+] as const;
+
+// "Company" column — only "À propos" maps to an existing section for now.
+const footerCompany = [
+  { key: "ft_about_link", href: "/#why" },
+  { key: "ft_team", href: "/#contact" },
+  { key: "ft_careers", href: "/#contact" },
+  { key: "ft_partners", href: "/#coverage" },
+  { key: "ft_blog", href: "/#contact" },
+] as const;
 
 export function Footer() {
   const { t } = useI18n();
@@ -42,11 +61,11 @@ export function Footer() {
           <div>
             <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-base mb-4">{t("ft_services")}</h4>
             <ul className="space-y-2.5">
-              {["s1_t", "s2_t", "s3_t", "s5_t", "s7_t"].map((key) => (
+              {footerServices.map(({ key, slug }) => (
                 <li key={key}>
-                  <a href="#" className="text-brand-xlight/70 text-sm hover:text-white transition-colors">
+                  <Link href={`/services/${slug}`} className="text-brand-xlight/70 text-sm hover:text-white transition-colors">
                     {t(key as any)}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -56,11 +75,11 @@ export function Footer() {
           <div>
             <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-base mb-4">{t("ft_company")}</h4>
             <ul className="space-y-2.5">
-              {["ft_about_link", "ft_team", "ft_careers", "ft_partners", "ft_blog"].map((key) => (
+              {footerCompany.map(({ key, href }) => (
                 <li key={key}>
-                  <a href="#" className="text-brand-xlight/70 text-sm hover:text-white transition-colors">
+                  <Link href={href} className="text-brand-xlight/70 text-sm hover:text-white transition-colors">
                     {t(key as any)}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

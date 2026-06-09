@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronDown, Menu, X, ArrowUp } from "lucide-react";
 import { useI18n } from "@/lib/i18n-context";
 import { AppIcon } from "@/components/app-icon";
 
 const serviceIcons = ["Ambulance", "Stethoscope", "Syringe", "HeartHandshake", "Video", "TestTube", "Plane", "CalendarHeart", "Accessibility"];
 const serviceKeys = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"] as const;
+// Slugs aligned with serviceKeys order — link each menu entry to its page.
+const serviceSlugs = ["ambulance", "medecin-domicile", "infirmiere-domicile", "garde-malade", "teleconsultation", "prelevement-analyses", "rapatriement", "equipe-evenementielle", "personne-agee"];
 
 export function Header() {
   const { t, lang, dir, setLang } = useI18n();
@@ -54,15 +57,15 @@ export function Header() {
         }`}
       >
         <div className="max-w-[1240px] mx-auto px-5 flex items-center justify-between h-[78px] gap-5">
-          <a href="#" className="flex items-center gap-2.5 shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <Image src="/medcare-logo.png" alt="MEDCARE" width={140} height={36} className="h-9 w-auto" priority />
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            <a href="#" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">
+            <Link href="/" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">
               {t("nav_home")}
-            </a>
+            </Link>
             <div className="relative" onMouseEnter={() => setMegaOpen(true)} onMouseLeave={() => setMegaOpen(false)}>
               <button className="inline-flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors cursor-pointer">
                 <span>{t("nav_services")}</span>
@@ -71,7 +74,7 @@ export function Header() {
               <div className={`absolute top-[calc(100%+14px)] start-1/2 -translate-x-1/2 w-[560px] bg-white rounded-[26px] shadow-[0_40px_80px_-30px_rgba(8,68,94,0.45)] border border-line-2 p-4 grid grid-cols-2 gap-1.5 z-40 transition-all duration-300 ${megaOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-2.5"}`}>
                 {serviceKeys.map((key, i) => {
                   return (
-                    <a key={key} href="#services" className="flex items-center gap-3 p-3 rounded-xl hover:bg-tint transition-colors">
+                    <Link key={key} href={`/services/${serviceSlugs[i]}`} onClick={() => setMegaOpen(false)} className="flex items-center gap-3 p-3 rounded-xl hover:bg-tint transition-colors">
                       <div className="w-[50px] h-[50px] rounded-xl bg-tint flex items-center justify-center shrink-0">
                         <AppIcon name={serviceIcons[i]} className="w-6 h-6 text-brand" />
                       </div>
@@ -79,14 +82,14 @@ export function Header() {
                         <span className="font-['Plus_Jakarta_Sans'] font-bold text-[14.5px] text-ink block">{t(`${key}_t` as any)}</span>
                         <span className="text-[12.5px] text-muted-text line-clamp-1">{t(`${key}_d` as any)}</span>
                       </div>
-                    </a>
+                    </Link>
                   );
                 })}
               </div>
             </div>
-            <a href="#why" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">{t("nav_why")}</a>
-            <a href="#coverage" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">{t("nav_coverage")}</a>
-            <a href="#contact" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">{t("nav_contact")}</a>
+            <Link href="/#why" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">{t("nav_why")}</Link>
+            <Link href="/#coverage" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">{t("nav_coverage")}</Link>
+            <Link href="/#contact" className="font-['Plus_Jakarta_Sans'] font-semibold text-[15px] text-ink-soft px-4 py-2.5 rounded-full hover:text-brand-dark hover:bg-tint transition-colors">{t("nav_contact")}</Link>
           </nav>
 
           {/* CTA */}
@@ -124,9 +127,9 @@ export function Header() {
         </div>
 
         <nav className="p-4 overflow-y-auto flex-1 space-y-1">
-          <a href="#" onClick={closeDrawer} className="flex items-center justify-between font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">
+          <Link href="/" onClick={closeDrawer} className="flex items-center justify-between font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">
             {t("nav_home")}
-          </a>
+          </Link>
           <div>
             <button onClick={() => setAccOpen(!accOpen)} className="flex items-center justify-between w-full font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">
               <span>{t("nav_services")}</span>
@@ -136,18 +139,18 @@ export function Header() {
               <div className="ps-3 space-y-0.5 pb-2">
                 {serviceKeys.map((key, i) => {
                   return (
-                    <a key={key} href="#services" onClick={closeDrawer} className="flex items-center gap-3 p-3 rounded-xl hover:bg-tint transition-colors text-[15px]">
+                    <Link key={key} href={`/services/${serviceSlugs[i]}`} onClick={closeDrawer} className="flex items-center gap-3 p-3 rounded-xl hover:bg-tint transition-colors text-[15px]">
                       <AppIcon name={serviceIcons[i]} className="w-5 h-5 text-brand" />
                       <span>{t(`${key}_t` as any)}</span>
-                    </a>
+                    </Link>
                   );
                 })}
               </div>
             </div>
           </div>
-          <a href="#why" onClick={closeDrawer} className="flex items-center font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">{t("nav_why")}</a>
-          <a href="#coverage" onClick={closeDrawer} className="flex items-center font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">{t("nav_coverage")}</a>
-          <a href="#contact" onClick={closeDrawer} className="flex items-center font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">{t("nav_contact")}</a>
+          <Link href="/#why" onClick={closeDrawer} className="flex items-center font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">{t("nav_why")}</Link>
+          <Link href="/#coverage" onClick={closeDrawer} className="flex items-center font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">{t("nav_coverage")}</Link>
+          <Link href="/#contact" onClick={closeDrawer} className="flex items-center font-['Plus_Jakarta_Sans'] font-bold text-[17px] text-ink p-3 rounded-xl hover:bg-tint transition-colors">{t("nav_contact")}</Link>
         </nav>
 
         <div className="p-5 border-t border-line-2 space-y-3">

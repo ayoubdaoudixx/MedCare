@@ -244,16 +244,16 @@ export function Services() {
                         )}
                       </div>
                       {/* Body */}
-                      <div className="p-4 flex flex-col h-[48%]">
-                        <h3 className={`text-[16px] font-['Plus_Jakarta_Sans'] font-bold mb-1.5 transition-colors duration-300 line-clamp-1 ${isActive ? "text-brand" : ""}`}>
+                      <div className="p-3.5 sm:p-4 flex flex-col h-[48%]">
+                        <h3 className={`text-[13.5px] sm:text-[16px] font-['Plus_Jakarta_Sans'] font-bold mb-1 sm:mb-1.5 transition-colors duration-300 line-clamp-1 ${isActive ? "text-brand" : ""}`}>
                           {t(`${svc.key}_t` as any)}
                         </h3>
-                        <p className="text-muted-text text-[13px] mb-3 line-clamp-2 leading-relaxed flex-1">
+                        <p className="text-muted-text text-[11.5px] sm:text-[13px] mb-2 sm:mb-3 line-clamp-2 leading-snug sm:leading-relaxed flex-1">
                           {t(`${svc.key}_d` as any)}
                         </p>
-                        <span className={`inline-flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] font-bold text-[13px] mt-auto transition-all duration-500 ${isActive ? "text-brand group-hover:gap-2.5" : "text-muted-text"}`}>
+                        <span className={`inline-flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] font-bold text-[11.5px] sm:text-[13px] mt-auto transition-all duration-500 ${isActive ? "text-brand group-hover:gap-2.5" : "text-muted-text"}`}>
                           <span>{t("sv_link")}</span>
-                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
+                          <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
                         </span>
                       </div>
                     </Link>

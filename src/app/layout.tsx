@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Manrope, Tajawal } from "next/font/google";
 import "./globals.css";
+import { MedcareChatbot } from "@/components/chatbot/MedcareChatbot";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",
@@ -37,7 +38,10 @@ export default function RootLayout({
       className={`${plusJakarta.variable} ${manrope.variable} ${tajawal.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <MedcareChatbot />
+      </body>
     </html>
   );
 }
