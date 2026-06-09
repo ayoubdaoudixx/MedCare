@@ -1,12 +1,21 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Send, RotateCcw, Stethoscope } from "lucide-react";
+import { X, Send, RotateCcw, Bot } from "lucide-react";
 import { useChatbot } from "@/hooks/useChatbot";
 import { ChatMessage } from "./ChatMessage";
 import { TypingIndicator } from "./TypingIndicator";
-import { QuickReplies } from "./QuickReplies";
+
+declare global {
+  interface Window {
+    __medcareIntroDone?: boolean;
+  }
+}
+
+// Event the home-page intro splash fires when it finishes.
+export const INTRO_DONE_EVENT = "medcare:intro-done";
 
 const EMERGENCY_KEYWORDS = [
   "urgence",
@@ -30,10 +39,28 @@ export function MedcareChatbot() {
   const { messages, isOpen, isLoading, unreadCount, sendMessage, toggleOpen, clearChat } =
     useChatbot();
 
+  const pathname = usePathname();
   const [input, setInput] = useState("");
+  const [introReady, setIntroReady] = useState(false);
   const [showPulse, setShowPulse] = useState(true);
   const [showHelpBubble, setShowHelpBubble] = useState(true);
   const [emergencyBanner, setEmergencyBanner] = useState(false);
+
+  // The chatbot only shows once the home-page intro splash has finished.
+  // Every other route has no intro, so it appears immediately.
+  useEffect(() => {
+    if (pathname !== "/") {
+      setIntroReady(true);
+      return;
+    }
+    if (typeof window !== "undefined" && window.__medcareIntroDone) {
+      setIntroReady(true);
+      return;
+    }
+    const handler = () => setIntroReady(true);
+    window.addEventListener(INTRO_DONE_EVENT, handler);
+    return () => window.removeEventListener(INTRO_DONE_EVENT, handler);
+  }, [pathname]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -89,19 +116,12 @@ export function MedcareChatbot() {
     [handleSend]
   );
 
-  const handleQuickReply = useCallback(
-    (text: string) => {
-      sendMessage(text);
-    },
-    [sendMessage]
-  );
-
-  const showQuickReplies = messages.length === 0 && !isLoading;
+  if (!introReady) return null;
 
   return (
     <>
-      {/* Floating trigger button */}
-      <div className="fixed bottom-32 md:bottom-24 right-6 z-[9999] flex flex-col items-end gap-3">
+      {/* Chat panel — anchored bottom-right */}
+      <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-3">
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -120,7 +140,7 @@ export function MedcareChatbot() {
               {/* Header */}
               <div className="bg-brand px-4 py-3 flex items-center gap-3 flex-shrink-0">
                 <div className="relative w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
-                  <Stethoscope className="w-4.5 h-4.5" />
+                  <Bot className="w-4.5 h-4.5" />
                   <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-brand" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -177,7 +197,7 @@ export function MedcareChatbot() {
                 {messages.length === 0 && !isLoading && (
                   <div className="flex flex-col items-center justify-center h-full text-center gap-3 py-8">
                     <div className="w-14 h-14 rounded-full bg-brand/10 flex items-center justify-center text-brand">
-                      <Stethoscope className="w-7 h-7" />
+                      <Bot className="w-7 h-7" />
                     </div>
                     <div>
                       <p className="font-semibold text-ink text-sm">
@@ -202,11 +222,6 @@ export function MedcareChatbot() {
                 {isLoading && <TypingIndicator />}
                 <div ref={messagesEndRef} />
               </div>
-
-              {/* Quick replies */}
-              {showQuickReplies && (
-                <QuickReplies onSelect={handleQuickReply} />
-              )}
 
               {/* Input area */}
               <div
@@ -251,7 +266,11 @@ export function MedcareChatbot() {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
 
+      {/* Trigger + help bubble — aligned horizontally with the back-to-top
+          button (header.tsx), sitting in the corner to its right */}
+      <div className="fixed bottom-20 md:bottom-8 right-6 md:right-8 z-[9999] flex flex-col items-end gap-3">
         {/* Dismissible help bubble */}
         <AnimatePresence>
           {!isOpen && showHelpBubble && (
@@ -287,7 +306,7 @@ export function MedcareChatbot() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 22, delay: 0.5 }}
-            className="relative flex items-center justify-center w-14 h-14 bg-brand text-white rounded-full shadow-brand-glow hover:bg-brand-dark transition-colors cursor-pointer"
+            className="relative flex items-center justify-center w-12 h-12 bg-brand text-white rounded-full shadow-brand-glow hover:bg-brand-dark transition-colors cursor-pointer"
             aria-label="Ouvrir le chat"
           >
             {/* Pulsing ring */}
@@ -296,8 +315,8 @@ export function MedcareChatbot() {
             )}
 
             {/* Avatar */}
-            <div className="relative w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
-              <Stethoscope className="w-5 h-5" />
+            <div className="relative w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+              <Bot className="w-5 h-5" />
             </div>
 
             {/* Unread badge */}

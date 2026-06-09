@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { I18nProvider } from "@/lib/i18n-context";
 import { IntroSplash } from "@/components/intro-splash";
+import { INTRO_DONE_EVENT } from "@/components/chatbot/MedcareChatbot";
 import { Topbar } from "@/components/topbar";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
@@ -17,7 +18,13 @@ import { Footer } from "@/components/footer";
 
 export default function Home() {
   const [introDone, setIntroDone] = useState(false);
-  const handleIntroComplete = useCallback(() => setIntroDone(true), []);
+  const handleIntroComplete = useCallback(() => {
+    setIntroDone(true);
+    if (typeof window !== "undefined") {
+      window.__medcareIntroDone = true;
+      window.dispatchEvent(new Event(INTRO_DONE_EVENT));
+    }
+  }, []);
 
   return (
     <I18nProvider>

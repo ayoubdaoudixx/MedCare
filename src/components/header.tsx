@@ -173,7 +173,7 @@ export function Header() {
       <button
         onClick={scrollToTop}
         className={`fixed bottom-20 md:bottom-8 z-40 p-3.5 bg-brand hover:bg-brand-dark text-white rounded-full shadow-lg shadow-brand/20 transition-all duration-300 flex items-center justify-center cursor-pointer ${
-          dir === "rtl" ? "left-6 md:left-8" : "right-6 md:right-8"
+          dir === "rtl" ? "left-[5.25rem] md:left-[5.75rem]" : "right-[5.25rem] md:right-[5.75rem]"
         } ${
           showBackToTop
             ? "opacity-100 scale-100 translate-y-0"
