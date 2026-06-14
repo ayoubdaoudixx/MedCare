@@ -12,7 +12,7 @@ import {
 import { AppIcon } from "@/components/app-icon";
 
 const TEL = "tel:+212522000000";
-const WHATSAPP = "https://wa.me/212600000000";
+const RESERVATION = "/reservation";
 
 // Hero illustration per service — the same artwork used in the homepage
 // service cards, keyed by slug. `medecin-domicile` is a transparent 3D render
@@ -113,13 +113,13 @@ export function ServicePage({ service }: { service: ServiceData }) {
                   {service.tagline}
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <a
-                    href={WHATSAPP}
+                  <Link
+                    href={RESERVATION}
                     className="inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16px] bg-white text-brand-dark px-7 py-4 rounded-full shadow-float hover:-translate-y-0.5 hover:bg-tint transition-all"
                   >
                     <AppIcon name="Calendar" className="w-5 h-5" />
                     <span>Prendre Rendez-vous</span>
-                  </a>
+                  </Link>
                   <a
                     href={TEL}
                     className={`inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16px] px-7 py-4 rounded-full transition-all hover:-translate-y-0.5 ${
@@ -275,8 +275,8 @@ export function ServicePage({ service }: { service: ServiceData }) {
                         </li>
                       ))}
                     </ul>
-                    <a
-                      href={WHATSAPP}
+                    <Link
+                      href={RESERVATION}
                       className={`inline-flex items-center justify-center gap-2 font-['Plus_Jakarta_Sans'] font-bold text-[15px] px-5 py-3 rounded-full transition-all hover:-translate-y-0.5 ${
                         tier.recommended
                           ? "bg-brand text-white shadow-brand-glow hover:bg-brand-dark"
@@ -285,7 +285,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
                     >
                       <AppIcon name="Calendar" className="w-4 h-4" />
                       <span>Demander un devis</span>
-                    </a>
+                    </Link>
                   </div>
                 </ScrollReveal>
               ))}
@@ -391,13 +391,13 @@ export function ServicePage({ service }: { service: ServiceData }) {
                       <AppIcon name="PhoneCalling" className="w-5 h-5" />
                       <span>Appeler maintenant</span>
                     </a>
-                    <a
-                      href={WHATSAPP}
+                    <Link
+                      href={RESERVATION}
                       className="inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-white/15 text-white border border-white/25 backdrop-blur-md px-7 py-4.5 rounded-full hover:bg-white/25 hover:-translate-y-0.5 transition-all"
                     >
                       <AppIcon name="Calendar" className="w-5 h-5" />
                       <span>Réserver en ligne</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
