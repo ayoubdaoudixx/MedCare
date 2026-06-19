@@ -20,13 +20,13 @@ const RESERVATION = "/reservation";
 const serviceImages: Record<string, string> = {
   "ambulance": "/ambulance.png",
   "medecin-domicile": "/medcare3d.png",
-  "infirmiere-domicile": "/infirmière à domicile.png",
+  "infirmiere-domicile": "/infirmiere-a-domicile.png",
   "garde-malade": "/garde-malade.png",
-  "teleconsultation": "/téléconsultation.png",
-  "prelevement-analyses": "/prélèvement  analyses.png",
+  "teleconsultation": "/teleconsultation.png",
+  "prelevement-analyses": "/prelevement-analyses.png",
   "rapatriement": "/rapatriement.png",
-  "equipe-evenementielle": "/équipe événementielle.jpg",
-  "personne-agee": "/personne âgée.jpg",
+  "equipe-evenementielle": "/equipe-evenementielle.jpg",
+  "personne-agee": "/personne-agee.jpg",
 };
 
 // Small reusable eyebrow chip — identical pattern to the homepage sections.

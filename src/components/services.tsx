@@ -11,13 +11,13 @@ import { Badge } from "@/components/ui/badge";
 const serviceImages: Record<string, string> = {
   "ambulance": "/ambulance.png",
   "médecin à domicile": "/medcare3d.png",
-  "infirmière à domicile": "/infirmière à domicile.png",
+  "infirmière à domicile": "/infirmiere-a-domicile.png",
   "garde-malade": "/garde-malade.png",
-  "téléconsultation": "/téléconsultation.png",
-  "prélèvement / analyses": "/prélèvement  analyses.png",
+  "téléconsultation": "/teleconsultation.png",
+  "prélèvement / analyses": "/prelevement-analyses.png",
   "rapatriement": "/rapatriement.png",
-  "équipe événementielle": "/équipe événementielle.jpg",
-  "personne âgée": "/personne âgée.jpg",
+  "équipe événementielle": "/equipe-evenementielle.jpg",
+  "personne âgée": "/personne-agee.jpg",
 };
 
 const services: { key: string; img: string; slug: string; urgent?: boolean }[] = [
