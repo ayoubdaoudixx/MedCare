@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { I18nProvider } from "@/lib/i18n-context";
-import { Topbar } from "@/components/topbar";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { Topbar } from "@/components/sections/topbar";
+import { Header } from "@/components/sections/header";
+import { Footer } from "@/components/sections/footer";
 import { ServicePage } from "@/components/services/service-page";
 import { getService, services } from "@/lib/services-data";
 

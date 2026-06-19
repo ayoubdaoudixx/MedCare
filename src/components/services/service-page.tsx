@@ -5,11 +5,11 @@ import Image from "next/image";
 import { ChevronRight, Check, Home as HomeIcon } from "lucide-react";
 import type { ServiceData } from "@/lib/services-data";
 import { PRICING_DISCLAIMER } from "@/lib/services-data";
-import { ScrollReveal } from "@/components/scroll-reveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import {
   Accordion, AccordionItem, AccordionTrigger, AccordionContent,
 } from "@/components/ui/accordion";
-import { AppIcon } from "@/components/app-icon";
+import { AppIcon } from "@/components/ui/app-icon";
 
 const TEL = "tel:+212522000000";
 const RESERVATION = "/reservation";

@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { ArrowRight, Star } from "lucide-react";
 import { useI18n } from "@/lib/i18n-context";
-import { ScrollReveal } from "./scroll-reveal";
-import { AnimatedCounter } from "./animated-counter";
-import { AuroraBackground } from "./aurora-background";
-import { AppIcon } from "@/components/app-icon";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { AppIcon } from "@/components/ui/app-icon";
 
 const statIcons = ["Ambulance", "Clock", "MapPin", "Users"];
 

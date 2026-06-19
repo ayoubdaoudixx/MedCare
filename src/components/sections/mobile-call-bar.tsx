@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n-context";
-import { AppIcon } from "@/components/app-icon";
+import { AppIcon } from "@/components/ui/app-icon";
 
 export function MobileCallBar() {
   const { t } = useI18n();

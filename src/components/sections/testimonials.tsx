@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ArrowLeft, ArrowRight, Star, Quote } from "lucide-react";
 import { useI18n } from "@/lib/i18n-context";
-import { ScrollReveal } from "./scroll-reveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const testimonials = [
   { key: "t1", avatar: "K", color: "bg-brand" },

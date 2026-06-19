@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 import { I18nProvider } from "@/lib/i18n-context";
-import { Topbar } from "@/components/topbar";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { Topbar } from "@/components/sections/topbar";
+import { Header } from "@/components/sections/header";
+import { Footer } from "@/components/sections/footer";
 import { ReservationForm } from "@/components/reservation/reservation-form";
 
 export const metadata: Metadata = {

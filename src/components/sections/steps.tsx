@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n-context";
-import { ScrollReveal } from "./scroll-reveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const steps = [
   { key: "stp1", num: "01" },

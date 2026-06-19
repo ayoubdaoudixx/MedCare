@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useI18n } from "@/lib/i18n-context";
-import { ScrollReveal } from "./scroll-reveal";
-import { AppIcon } from "@/components/app-icon";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { AppIcon } from "@/components/ui/app-icon";
 
 export function EmergencyBand() {
   const { t } = useI18n();

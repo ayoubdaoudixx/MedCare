@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n-context";
 import { Separator } from "@/components/ui/separator";
-import { AppIcon } from "@/components/app-icon";
-import { FacebookIcon, InstagramIcon, LinkedInIcon, WhatsAppIcon } from "./social-icons";
+import { AppIcon } from "@/components/ui/app-icon";
+import { FacebookIcon, InstagramIcon, LinkedInIcon, WhatsAppIcon } from "@/components/ui/social-icons";
 
 const socials = [
   { name: "Facebook", Icon: FacebookIcon, href: "#" },

@@ -1,8 +1,8 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n-context";
-import { ScrollReveal } from "./scroll-reveal";
-import { AppIcon } from "@/components/app-icon";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { AppIcon } from "@/components/ui/app-icon";
 
 export function FinalCta() {
   const { t } = useI18n();
