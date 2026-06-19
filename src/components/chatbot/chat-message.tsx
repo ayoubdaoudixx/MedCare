@@ -1,5 +1,5 @@
 import { Stethoscope } from "lucide-react";
-import { ServiceChip } from "./ServiceChip";
+import { ServiceChip } from "./service-chip";
 import { services } from "@/lib/services-data";
 
 type Props = {

@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { I18nProvider } from "@/lib/i18n-context";
 import { IntroSplash } from "@/components/intro-splash";
-import { INTRO_DONE_EVENT } from "@/components/chatbot/MedcareChatbot";
+import { INTRO_DONE_EVENT } from "@/components/chatbot/medcare-chatbot";
 import { Topbar } from "@/components/topbar";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";

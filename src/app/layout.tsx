@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Manrope, Tajawal } from "next/font/google";
 import "./globals.css";
-import { MedcareChatbot } from "@/components/chatbot/MedcareChatbot";
+import { MedcareChatbot } from "@/components/chatbot/medcare-chatbot";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-heading",

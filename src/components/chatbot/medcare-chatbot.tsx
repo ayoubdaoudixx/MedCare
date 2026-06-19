@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Send, RotateCcw, Bot } from "lucide-react";
 import { useChatbot } from "@/hooks/useChatbot";
-import { ChatMessage } from "./ChatMessage";
-import { TypingIndicator } from "./TypingIndicator";
+import { ChatMessage } from "./chat-message";
+import { TypingIndicator } from "./typing-indicator";
 
 declare global {
   interface Window {
