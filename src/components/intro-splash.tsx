@@ -189,7 +189,7 @@ export function IntroSplash({ onComplete }: { onComplete: () => void }) {
                 }}
               >
                 <Image
-                  src="/medcare3d.png"
+                  src="/medcare3d.webp"
                   alt="MEDCARE"
                   width={220}
                   height={220}

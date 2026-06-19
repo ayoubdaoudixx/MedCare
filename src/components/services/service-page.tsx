@@ -18,15 +18,15 @@ const RESERVATION = "/reservation";
 // service cards, keyed by slug. `medecin-domicile` is a transparent 3D render
 // best shown contained; the rest are photos shown edge-to-edge.
 const serviceImages: Record<string, string> = {
-  "ambulance": "/ambulance.png",
-  "medecin-domicile": "/medcare3d.png",
-  "infirmiere-domicile": "/infirmiere-a-domicile.png",
-  "garde-malade": "/garde-malade.png",
-  "teleconsultation": "/teleconsultation.png",
-  "prelevement-analyses": "/prelevement-analyses.png",
-  "rapatriement": "/rapatriement.png",
-  "equipe-evenementielle": "/equipe-evenementielle.jpg",
-  "personne-agee": "/personne-agee.jpg",
+  "ambulance": "/ambulance.webp",
+  "medecin-domicile": "/medcare3d.webp",
+  "infirmiere-domicile": "/infirmiere-a-domicile.webp",
+  "garde-malade": "/garde-malade.webp",
+  "teleconsultation": "/teleconsultation.webp",
+  "prelevement-analyses": "/prelevement-analyses.webp",
+  "rapatriement": "/rapatriement.webp",
+  "equipe-evenementielle": "/equipe-evenementielle.webp",
+  "personne-agee": "/personne-agee.webp",
 };
 
 // Small reusable eyebrow chip — identical pattern to the homepage sections.
@@ -84,7 +84,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
             <div className="gradient-ring relative h-full w-full overflow-hidden rounded-s-[40px] border border-white/20 shadow-float">
               <div className="absolute inset-0 bg-dots opacity-20" />
               <Image
-                src={serviceImages[service.slug] ?? "/medcare3d.png"}
+                src={serviceImages[service.slug] ?? "/medcare3d.webp"}
                 alt={service.name}
                 fill
                 priority
@@ -139,7 +139,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
                 <div className="gradient-ring relative aspect-[4/3] w-full overflow-hidden rounded-[28px] border border-white/20 shadow-float">
                   <div className="absolute inset-0 bg-dots opacity-20" />
                   <Image
-                    src={serviceImages[service.slug] ?? "/medcare3d.png"}
+                    src={serviceImages[service.slug] ?? "/medcare3d.webp"}
                     alt={service.name}
                     fill
                     priority

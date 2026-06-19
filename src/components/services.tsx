@@ -9,15 +9,15 @@ import { ScrollReveal } from "./scroll-reveal";
 import { Badge } from "@/components/ui/badge";
 
 const serviceImages: Record<string, string> = {
-  "ambulance": "/ambulance.png",
-  "médecin à domicile": "/medcare3d.png",
-  "infirmière à domicile": "/infirmiere-a-domicile.png",
-  "garde-malade": "/garde-malade.png",
-  "téléconsultation": "/teleconsultation.png",
-  "prélèvement / analyses": "/prelevement-analyses.png",
-  "rapatriement": "/rapatriement.png",
-  "équipe événementielle": "/equipe-evenementielle.jpg",
-  "personne âgée": "/personne-agee.jpg",
+  "ambulance": "/ambulance.webp",
+  "médecin à domicile": "/medcare3d.webp",
+  "infirmière à domicile": "/infirmiere-a-domicile.webp",
+  "garde-malade": "/garde-malade.webp",
+  "téléconsultation": "/teleconsultation.webp",
+  "prélèvement / analyses": "/prelevement-analyses.webp",
+  "rapatriement": "/rapatriement.webp",
+  "équipe événementielle": "/equipe-evenementielle.webp",
+  "personne âgée": "/personne-agee.webp",
 };
 
 const services: { key: string; img: string; slug: string; urgent?: boolean }[] = [
@@ -227,7 +227,7 @@ export function Services() {
                       {/* Image area */}
                       <div className="relative h-[52%] shrink-0 bg-gradient-to-br from-tint via-brand-xlight/20 to-tint-2 overflow-hidden sheen">
                         <Image
-                          src={serviceImages[svc.img] || "/medcare3d.png"}
+                          src={serviceImages[svc.img] || "/medcare3d.webp"}
                           alt={svc.img}
                           fill
                           draggable={false}

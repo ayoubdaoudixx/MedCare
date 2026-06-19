@@ -58,7 +58,7 @@ export function EmergencyBand() {
             />
             {/* the rotating beacon image */}
             <Image
-              src="/urgence.png"
+              src="/urgence.webp"
               alt={t("em_call_s")}
               width={130}
               height={150}

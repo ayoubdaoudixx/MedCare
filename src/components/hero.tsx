@@ -97,7 +97,7 @@ export function Hero() {
               {/* Main photo */}
               <div className="gradient-ring relative aspect-[5/4] rounded-[28px] bg-gradient-to-br from-tint via-brand-xlight/30 to-tint-2 overflow-hidden shadow-float">
                 <Image
-                  src="/hero.jpg"
+                  src="/hero.webp"
                   alt="Ambulance & équipe médicale"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"

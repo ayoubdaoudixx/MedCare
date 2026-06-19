@@ -26,7 +26,7 @@ export function WhyUs() {
               <div className="absolute -inset-6 -z-10 rounded-[44px] bg-gradient-to-br from-brand/20 to-brand-xlight/20 blur-3xl animate-glow-pulse" />
               <div className="gradient-ring relative aspect-[4/5] rounded-[34px] bg-gradient-to-br from-tint via-brand-xlight/30 to-tint-2 overflow-hidden shadow-float">
                 <Image
-                  src="/pourquoi-medcare.jpg"
+                  src="/pourquoi-medcare.webp"
                   alt="Soin infirmier à domicile"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
