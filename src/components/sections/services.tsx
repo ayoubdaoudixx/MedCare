@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 
 const serviceImages: Record<string, string> = {
   "ambulance": "/ambulance.webp",
-  "médecin à domicile": "/adomi.jpg",
+  "médecin à domicile": "/medecin-domicile.png",
   "infirmière à domicile": "/infirmiere-a-domicile.webp",
   "garde-malade": "/garde-malade.webp",
   "téléconsultation": "/teleconsultation.webp",
@@ -210,17 +210,20 @@ export function Services() {
                       href={`/services/${svc.slug}`}
                       draggable={false}
                       onClick={(e) => {
-                        // A real drag never navigates; a tap directly directs to that service page.
+                        // Suppress navigation on drag; always navigate on tap (any card).
                         if (moved.current) { e.preventDefault(); return; }
+                        if (!isActive) {
+                          // Spin the ring to this card, but still follow the link.
+                          goTo(i);
+                        }
                       }}
                       tabIndex={front > 0.1 ? 0 : -1}
                       aria-label={t(`${svc.key}_t` as any)}
                       aria-current={isActive}
-                      className={`group block text-start w-full h-full rounded-2xl overflow-hidden border bg-white cursor-pointer transition-[box-shadow,border-color,transform] duration-500 ${
-                        isActive
+                      className={`group block text-start w-full h-full rounded-2xl overflow-hidden border bg-white cursor-pointer transition-[box-shadow,border-color,transform] duration-500 ${isActive
                           ? "gradient-ring border-transparent shadow-float hover:shadow-brand-glow hover:-translate-y-1"
                           : "border-line-2 shadow-card"
-                      }`}
+                        }`}
                     >
                       {/* Image area */}
                       <div className="relative h-[52%] shrink-0 bg-gradient-to-br from-tint via-brand-xlight/20 to-tint-2 overflow-hidden sheen">
@@ -230,9 +233,7 @@ export function Services() {
                           fill
                           draggable={false}
                           sizes="(max-width: 480px) 60vw, 280px"
-                          className={`transition-transform duration-700 ease-out ${isActive ? "group-hover:scale-110" : ""} ${
-                            svc.img === "médecin à domicile" ? "object-contain p-4" : "object-cover"
-                          }`}
+                          className={`transition-transform duration-700 ease-out ${isActive ? "group-hover:scale-110" : ""} object-cover`}
                         />
                         <div className={`absolute inset-0 bg-gradient-to-t from-brand-deep/55 via-transparent to-transparent transition-opacity duration-500 ${isActive ? "opacity-0 group-hover:opacity-100" : "opacity-0"}`} />
                         {svc.urgent && (
@@ -268,11 +269,10 @@ export function Services() {
                 <button
                   key={i}
                   onClick={() => goTo(i)}
-                  className={`rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] cursor-pointer ${
-                    i === displayIndex
+                  className={`rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] cursor-pointer ${i === displayIndex
                       ? "w-8 h-2.5 bg-brand shadow-[0_4px_12px_rgba(16,128,176,0.4)]"
                       : "w-2.5 h-2.5 bg-line-2 hover:bg-brand-xlight"
-                  }`}
+                    }`}
                   aria-label={`Go to service ${i + 1}`}
                   aria-current={i === displayIndex}
                 />

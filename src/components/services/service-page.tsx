@@ -20,7 +20,7 @@ const WHATSAPP = "https://wa.me/212626216568";
 // best shown contained; the rest are photos shown edge-to-edge.
 const serviceImages: Record<string, string> = {
   "ambulance": "/ambulance.webp",
-  "medecin-domicile": "/adomi.jpg",
+  "medecin-domicile": "/medecin-domicile.png",
   "infirmiere-domicile": "/infirmiere-a-domicile.webp",
   "garde-malade": "/garde-malade.webp",
   "teleconsultation": "/teleconsultation.webp",
@@ -90,7 +90,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
                 fill
                 priority
                 sizes="50vw"
-                className={service.slug === "medecin-domicile" ? "object-contain p-10" : "object-cover"}
+                className={service.slug === "medecin-domicile" ? "object-cover object-center" : "object-cover"}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/45 via-transparent to-transparent" />
             </div>
@@ -147,7 +147,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
                     fill
                     priority
                     sizes="100vw"
-                    className={service.slug === "medecin-domicile" ? "object-contain p-8" : "object-cover"}
+                    className={service.slug === "medecin-domicile" ? "object-cover object-center" : "object-cover"}
                   />
                 </div>
               </ScrollReveal>
