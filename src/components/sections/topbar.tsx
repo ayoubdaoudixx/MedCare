@@ -20,7 +20,11 @@ export function Topbar() {
           </span>
         </div>
         <div className="flex items-center gap-4 ms-auto">
-          <a href="mailto:contact@medcare.ma" className="inline-flex items-center gap-1.5 hover:text-white transition-colors">
+          <a href="tel:+212626216568" className="inline-flex items-center gap-1.5 hover:text-white transition-colors">
+            <AppIcon name="Phone" className="w-[15px] h-[15px]" />
+            <span className="hidden sm:inline">{t("tb_phone")}</span>
+          </a>
+          <a href="mailto:doccaremed@gmail.com" className="inline-flex items-center gap-1.5 hover:text-white transition-colors">
             <AppIcon name="Mail" className="w-[15px] h-[15px]" />
             <span className="hidden sm:inline">{t("tb_email")}</span>
           </a>

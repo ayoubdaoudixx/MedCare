@@ -11,7 +11,7 @@ const socials = [
   { name: "Facebook", Icon: FacebookIcon, href: "#" },
   { name: "Instagram", Icon: InstagramIcon, href: "#" },
   { name: "LinkedIn", Icon: LinkedInIcon, href: "#" },
-  { name: "WhatsApp", Icon: WhatsAppIcon, href: "https://wa.me/212600000000" },
+  { name: "WhatsApp", Icon: WhatsAppIcon, href: "https://wa.me/212626216568" },
 ];
 
 // Footer "Services" column → each links to its dedicated service page.
@@ -95,13 +95,13 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2.5 text-sm">
                 <AppIcon name="Phone" className="w-4 h-4 shrink-0 text-brand-xlight" />
-                <a href="tel:+212522000000" className="text-brand-xlight/70 hover:text-white transition-colors">
+                <a href="tel:+212626216568" className="text-brand-xlight/70 hover:text-white transition-colors">
                   {t("ft_phone")}
                 </a>
               </li>
               <li className="flex items-center gap-2.5 text-sm">
                 <AppIcon name="Mail" className="w-4 h-4 shrink-0 text-brand-xlight" />
-                <a href="mailto:contact@medcare.ma" className="text-brand-xlight/70 hover:text-white transition-colors">
+                <a href="mailto:doccaremed@gmail.com" className="text-brand-xlight/70 hover:text-white transition-colors">
                   {t("ft_email")}
                 </a>
               </li>

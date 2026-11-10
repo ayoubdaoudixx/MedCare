@@ -10,16 +10,17 @@ import {
   Accordion, AccordionItem, AccordionTrigger, AccordionContent,
 } from "@/components/ui/accordion";
 import { AppIcon } from "@/components/ui/app-icon";
+import { WhatsAppIcon } from "@/components/ui/social-icons";
 
-const TEL = "tel:+212522000000";
-const WHATSAPP = "https://wa.me/212600000000";
+const TEL = "tel:+212626216568";
+const WHATSAPP = "https://wa.me/212626216568";
 
 // Hero illustration per service — the same artwork used in the homepage
 // service cards, keyed by slug. `medecin-domicile` is a transparent 3D render
 // best shown contained; the rest are photos shown edge-to-edge.
 const serviceImages: Record<string, string> = {
   "ambulance": "/ambulance.webp",
-  "medecin-domicile": "/medcare3d.webp",
+  "medecin-domicile": "/adomi.jpg",
   "infirmiere-domicile": "/infirmiere-a-domicile.webp",
   "garde-malade": "/garde-malade.webp",
   "teleconsultation": "/teleconsultation.webp",
@@ -119,7 +120,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16px] bg-white text-brand-dark px-7 py-4 rounded-full shadow-float hover:-translate-y-0.5 hover:bg-tint transition-all"
                   >
-                    <AppIcon name="Calendar" className="w-5 h-5" />
+                    <WhatsAppIcon className="w-5 h-5 text-[#25D366]" />
                     <span>Prendre Rendez-vous</span>
                   </a>
                   <a
@@ -399,9 +400,9 @@ export function ServicePage({ service }: { service: ServiceData }) {
                       href={WHATSAPP}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-white/15 text-white border border-white/25 backdrop-blur-md px-7 py-4.5 rounded-full hover:bg-white/25 hover:-translate-y-0.5 transition-all"
+                      className="inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-[#25D366] text-white border border-[#25D366]/30 backdrop-blur-md px-7 py-4.5 rounded-full hover:bg-[#1EBE57] hover:-translate-y-0.5 transition-all shadow-md"
                     >
-                      <AppIcon name="Calendar" className="w-5 h-5" />
+                      <WhatsAppIcon className="w-5 h-5" />
                       <span>Réserver en ligne</span>
                     </a>
                   </div>

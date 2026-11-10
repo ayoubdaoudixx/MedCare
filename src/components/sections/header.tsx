@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ChevronDown, Menu, X, ArrowUp } from "lucide-react";
 import { useI18n } from "@/lib/i18n-context";
 import { AppIcon } from "@/components/ui/app-icon";
+import { WhatsAppIcon } from "@/components/ui/social-icons";
 
 const serviceIcons = ["Ambulance", "Stethoscope", "Syringe", "HeartHandshake", "Video", "TestTube", "Plane", "CalendarHeart", "Accessibility"];
 const serviceKeys = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"] as const;
@@ -94,12 +95,13 @@ export function Header() {
 
           {/* CTA */}
           <div className="flex items-center gap-3">
-            <a href="tel:+212522000000" className="inline-flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] font-bold text-[13px] bg-emergency text-white px-3.5 py-2 rounded-full shadow-[0_12px_24px_-8px_rgba(230,58,75,0.4)] hover:-translate-y-0.5 hover:bg-emergency-dark transition-all">
+            <a href="tel:+212626216568" className="inline-flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] font-bold text-[13px] bg-emergency text-white px-3.5 py-2 rounded-full shadow-[0_12px_24px_-8px_rgba(230,58,75,0.4)] hover:-translate-y-0.5 hover:bg-emergency-dark transition-all">
               <AppIcon name="PhoneCalling" className="w-4 h-4" />
               <span className="hidden sm:inline">{t("cta_emergency")}</span>
             </a>
-            <a href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] font-bold text-[13px] bg-[#25D366] text-white px-3.5 py-2 rounded-full shadow-[0_12px_24px_-8px_rgba(37,211,102,0.45)] hover:-translate-y-0.5 hover:bg-[#1EBE57] transition-all">
-              {t("cta_appt")}
+            <a href="https://wa.me/212626216568" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center gap-1.5 font-['Plus_Jakarta_Sans'] font-bold text-[13px] bg-[#25D366] text-white px-3.5 py-2 rounded-full shadow-[0_12px_24px_-8px_rgba(37,211,102,0.45)] hover:-translate-y-0.5 hover:bg-[#1EBE57] transition-all">
+              <WhatsAppIcon className="w-4 h-4" />
+              <span>{t("cta_appt")}</span>
             </a>
             <button onClick={() => setDrawerOpen(true)} className="lg:hidden w-[46px] h-[46px] rounded-[13px] bg-tint text-brand-dark grid place-items-center shrink-0">
               <Menu className="w-6 h-6" />
@@ -154,9 +156,13 @@ export function Header() {
         </nav>
 
         <div className="p-5 border-t border-line-2 space-y-3">
-          <a href="tel:+212522000000" className="flex items-center justify-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-emergency text-white px-6 py-4 rounded-full shadow-[0_16px_34px_-12px_rgba(230,58,75,0.5)] w-full">
+          <a href="tel:+212626216568" className="flex items-center justify-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-emergency text-white px-6 py-4 rounded-full shadow-[0_16px_34px_-12px_rgba(230,58,75,0.5)] w-full">
             <AppIcon name="PhoneCalling" className="w-5 h-5" />
             <span>{t("cta_emergency")}</span>
+          </a>
+          <a href="https://wa.me/212626216568" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-[#25D366] text-white px-6 py-4 rounded-full shadow-[0_12px_24px_-8px_rgba(37,211,102,0.45)] hover:bg-[#1EBE57] transition-all w-full">
+            <WhatsAppIcon className="w-5 h-5" />
+            <span>{t("cta_appt")}</span>
           </a>
           <div className="flex gap-2 justify-center">
             <button onClick={() => setLang("fr")} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${lang === "fr" ? "bg-brand text-white" : "bg-tint text-ink-soft"}`}>

@@ -69,7 +69,7 @@ export function EmergencyBand() {
 
           {/* Phone icon + number */}
           <a
-            href="tel:+212522000000"
+            href="tel:+212626216568"
             className="group flex items-center gap-4 glass-dark rounded-full px-5 py-3 hover:bg-white/20 transition-all"
           >
             <span className="relative flex items-center justify-center">

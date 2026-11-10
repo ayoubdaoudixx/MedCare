@@ -181,10 +181,10 @@ export function MedcareChatbot() {
                     <p className="text-emergency text-xs font-semibold leading-snug">
                       ⚠️ Si c&apos;est une urgence vitale, appelez le{" "}
                       <a
-                        href="tel:+212522000000"
+                        href="tel:+212626216568"
                         className="underline font-bold"
                       >
-                        +212 5XX-XXXXXX
+                        +212 626-216568
                       </a>{" "}
                       immédiatement.
                     </p>

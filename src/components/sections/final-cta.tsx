@@ -3,6 +3,7 @@
 import { useI18n } from "@/lib/i18n-context";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { AppIcon } from "@/components/ui/app-icon";
+import { WhatsAppIcon } from "@/components/ui/social-icons";
 
 export function FinalCta() {
   const { t } = useI18n();
@@ -24,17 +25,19 @@ export function FinalCta() {
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <a
-                  href="tel:+212522000000"
+                  href="tel:+212626216568"
                   className="inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-emergency text-white px-7 py-4.5 rounded-full shadow-[0_16px_34px_-12px_rgba(230,58,75,0.5)] hover:-translate-y-0.5 hover:bg-emergency-dark transition-all"
                 >
                   <AppIcon name="PhoneCalling" className="w-5 h-5" />
                   <span>{t("cta_b1")}</span>
                 </a>
                 <a
-                  href="https://wa.me/212600000000"
+                  href="https://wa.me/212626216568"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 font-['Plus_Jakarta_Sans'] font-bold text-[16.5px] bg-white/15 text-white border border-white/25 backdrop-blur-md px-7 py-4.5 rounded-full hover:bg-white/25 hover:-translate-y-0.5 transition-all"
                 >
-                  <AppIcon name="Chat" className="w-5 h-5" />
+                  <WhatsAppIcon className="w-5 h-5" />
                   <span>{t("cta_b2")}</span>
                 </a>
               </div>

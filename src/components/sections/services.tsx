@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 
 const serviceImages: Record<string, string> = {
   "ambulance": "/ambulance.webp",
-  "médecin à domicile": "/medcare3d.webp",
+  "médecin à domicile": "/adomi.jpg",
   "infirmière à domicile": "/infirmiere-a-domicile.webp",
   "garde-malade": "/garde-malade.webp",
   "téléconsultation": "/teleconsultation.webp",
@@ -210,12 +210,10 @@ export function Services() {
                       href={`/services/${svc.slug}`}
                       draggable={false}
                       onClick={(e) => {
-                        // A real drag never navigates; a tap on a side card brings
-                        // it to the front; a tap on the front card follows the link.
+                        // A real drag never navigates; a tap directly directs to that service page.
                         if (moved.current) { e.preventDefault(); return; }
-                        if (!isActive) { e.preventDefault(); goTo(i); }
                       }}
-                      tabIndex={isActive ? 0 : -1}
+                      tabIndex={front > 0.1 ? 0 : -1}
                       aria-label={t(`${svc.key}_t` as any)}
                       aria-current={isActive}
                       className={`group block text-start w-full h-full rounded-2xl overflow-hidden border bg-white cursor-pointer transition-[box-shadow,border-color,transform] duration-500 ${
