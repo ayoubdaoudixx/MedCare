@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     const systemPrompt = buildSystemPrompt(services);
 
     const groqStream = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "qwen/qwen3.8-27b",
       messages: [{ role: "system", content: systemPrompt }, ...sanitizedMessages],
       stream: true,
       max_tokens: 1024,
