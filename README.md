@@ -11,8 +11,8 @@ includes an AI assistant that answers questions about the services.
 - **Next.js 16** (App Router) with Turbopack
 - **React 19** + **TypeScript**
 - **Tailwind CSS v4** (via `@tailwindcss/postcss`)
-- **Framer Motion** for animation
-- **Embla** for the services carousel
+- **GSAP** (with ScrollTrigger and `@gsap/react`) for scroll-driven motion
+- **Framer Motion**, used only by the chatbot panel
 - **lucide-react** + Iconify (Solar) for icons
 - **Groq SDK** for the chatbot LLM backend
 - Component primitives composed in the shadcn/ui style (Radix-like, in `ui/`)
@@ -25,6 +25,11 @@ components.
 - `src/lib/i18n.ts` — the translation dictionaries.
 - `src/lib/i18n-context.tsx` — the React provider and `useI18n()` hook
   exposing `t()` and the current text direction (`dir`).
+
+The service pages keep their long-form content in `src/lib/services-data.ts`
+(French) and `src/lib/services-data-ar.ts` (Arabic), and their interface
+strings in `src/lib/service-page-copy.ts`. The chosen language is remembered in
+`localStorage`, and a link such as `/?lang=ar` opens the site in Arabic.
 
 Currently shipped locales: **French (`fr`, default)** and **Arabic (`ar`)**.
 Arabic renders right-to-left; layouts use logical CSS properties
@@ -78,19 +83,27 @@ src/
 │   ├── services/[slug]/      # Per-service detail pages (SSG)
 │   └── api/chat/route.ts     # Chatbot endpoint (Groq + rate limiting)
 ├── components/
-│   ├── sections/             # Landing-page sections (hero, services,
-│   │                         #   coverage, testimonials, why-us, steps,
-│   │                         #   header, footer, topbar, …)
+│   ├── sections/             # Landing-page sections (hero, statement,
+│   │                         #   services, emergency band, steps, why-us,
+│   │                         #   coverage, faq, final-cta request builder,
+│   │                         #   header, footer, mobile call bar, intro)
 │   ├── ui/                   # Generic primitives & visual helpers
-│   │                         #   (button, card, badge, app-icon,
-│   │                         #   scroll-reveal, aurora-background, …)
+│   │                         #   (cta, reveal-image, scroll-reveal,
+│   │                         #   chat-demo, logo-mark, app-icon, sheet, …)
 │   ├── chatbot/              # AI assistant feature
 │   ├── reservation/          # Reservation form feature
 │   └── services/             # Service detail page renderer
 ├── hooks/                    # Shared React hooks (e.g. useChatbot)
 └── lib/                      # Data, i18n, and prompt builders (no React):
-                              #   services-data, i18n, i18n-context,
+                              #   services-data(-ar), service-catalog,
+                              #   contact, coverage-data, i18n, i18n-context,
+                              #   position-store, image-placeholders,
                               #   chatbot-system-prompt, app-icons-data
+
+docs/
+├── analyse-waxvrai-patients.md   # Who visits the site and why it is built this way
+├── prompts-images.md             # Prompts to generate replacement photos
+└── client/                       # Information request sent to MedCare (HTML + PDF)
 ```
 
 Static assets live in `public/` (lowercase kebab-case ASCII filenames, photos

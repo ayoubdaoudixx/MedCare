@@ -1,26 +1,26 @@
 ---
 name: medcare-design-system
-description: MedCare site theme tokens, reusable premium CSS utilities, and decorative components to reuse when building/refining UI
+description: MedCare design system after the November 2026 redesign: tokens, fonts, color roles, shared components and content rules
 metadata:
   type: project
 ---
 
-MedCare is a bilingual (FR/AR, RTL-aware) Moroccan medical/home-care landing site. Next.js 16 + Tailwind v4 + shadcn + framer-motion.
+MedCare is a bilingual (FR/AR, RTL-aware) home-healthcare site for Casablanca and its region. Next.js 16, Tailwind v4, shadcn (Base UI), GSAP. Phones first: the client says 95% of visitors are on mobile.
 
-**Theme (do not change):** brand blue `#1080B0` (+ `brand-dark/deeper/deep/light/xlight`, `tint`, `tint-2`), emergency red `#E63A4B`, ink text. Fonts: Plus Jakarta Sans (headings), Manrope (body), Tajawal (Arabic). Tokens defined in [globals.css](src/app/globals.css).
+**Tokens** live in [globals.css](src/app/globals.css). Every color derives from the two logo blues (azure `#1278AD`, navy `#183660`). Roles, one meaning each: blue = brand and main action; navy (`ink`, `brand-deep`) = text and dark surfaces; `sand` = warm quiet background; red (`emergency`) = emergencies only; green (`whatsapp`) = WhatsApp only. Measured contrast ratios are in the comments.
 
-**Reusable premium utilities added to globals.css** — prefer these over ad-hoc styles for consistency:
-- `.text-gradient-brand` — animated gradient headline text
-- `.glass` / `.glass-dark` — glassmorphism surfaces (light / on dark sections)
-- `.bg-grid` / `.bg-grid-light` / `.bg-dots` — background textures; pair with `.mask-fade` (radial fade)
-- `.shadow-soft/.shadow-card/.shadow-float/.shadow-brand-glow/.shadow-emergency-glow` — elevation scale
-- `.gradient-ring` — animated gradient border wrapper (uses ::before mask)
-- `.sheen` — diagonal sheen sweep on `.group:hover` (parent must be relative+overflow-hidden)
-- animations: `.animate-aurora/.animate-aurora-slow/.animate-glow-pulse` (+ existing float/pulse-ring)
-- A `prefers-reduced-motion` block disables all custom animations — keep honoring it.
+**Fonts:** Fraunces (h1, h2), Figtree (interface), IBM Plex Sans Arabic (leads the stack in RTL, see the `[dir="rtl"]` block). No hardcoded font classes in components.
 
-**Reusable components:** [aurora-background.tsx](src/components/aurora-background.tsx) (decorative drifting blooms + grid, `variant="light"|"dark"`, aria-hidden) and [social-icons.tsx](src/components/social-icons.tsx) (official Facebook/Instagram/LinkedIn/WhatsApp brand SVGs as `currentColor`).
+**Utilities:** `shell` (page gutter), `section-y`, `text-display`, `text-title`, `text-lead`, `eyebrow`, `press`, `img-outline`, `num` (LTR numbers), `pb-call-bar`.
 
-Coverage section map is a stylized radar/network panel (hub=Casablanca + satellite city pins), NOT a geographic Morocco outline — chosen to avoid inaccurate-border risk. See [coverage.tsx](src/components/coverage.tsx).
+**Shared components:**
+- [cta.tsx](src/components/ui/cta.tsx): `CallLink` and `WhatsAppLink` are the only call and WhatsApp buttons. They carry `data-contact` attributes and push `contact_tap` to `dataLayer`.
+- [reveal-image.tsx](src/components/ui/reveal-image.tsx): blur-up, curtain reveal and slight parallax for photos. The photo is never hidden, so lazy loading works.
+- [scroll-reveal.tsx](src/components/ui/scroll-reveal.tsx): opacity-only entrance (never `visibility: hidden`, it blocks lazy images).
+- [chat-demo.tsx](src/components/ui/chat-demo.tsx): WhatsApp-style typing that plays on scroll.
+- [final-cta.tsx](src/components/sections/final-cta.tsx): the request builder that writes the WhatsApp message.
+- [mobile-call-bar.tsx](src/components/sections/mobile-call-bar.tsx): server-rendered, above the intro overlay.
 
-Related: [[medcare-nextjs-breaking-changes]]
+**Motion rules:** every effect is an enhancement inside `gsap.matchMedia("(prefers-reduced-motion: no-preference)")`. Content must be complete without scripts. Do not nest `mm.add` inside another `mm.add` callback (it froze the page once).
+
+**Content rules:** only confirmed facts (phone, WhatsApp, email, nine services, 24/7, free quote, Casablanca and region). No patient counts, ratings, testimonials, response times or address until the client returns `docs/client/medcare-informations-a-fournir.pdf`. All copy goes through `i18n.ts` (home) or `service-page-copy.ts` and `services-data(-ar).ts` (service pages), in both languages.

@@ -4,12 +4,29 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * MedCare design tokens.
+ *
+ * Every color is derived from the two blues in the logo:
+ *   azure  #1278AD  (wordmark, roof)        OKLCH hue 239
+ *   navy   #183660  (house and stethoscope) OKLCH hue 257
+ *
+ * Roles, each used for one meaning only:
+ *   blue   brand and the main action
+ *   navy   text and dark surfaces
+ *   sand   warm complement of the blue, for quiet section backgrounds
+ *   red    emergency only
+ *   green  WhatsApp only
+ *
+ * Contrast ratios quoted below were measured (WCAG 2.x relative luminance).
+ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
+  /* The stacks live in :root and change with the text direction (see below). */
+  --font-sans: var(--stack-sans);
+  --font-heading: var(--stack-heading);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -47,279 +64,313 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* MEDCARE brand colors */
-  --color-brand: #1080B0;
-  --color-brand-dark: #0C6488;
-  --color-brand-deeper: #08445E;
-  --color-brand-deep: #062E40;
-  --color-brand-light: #3DA3CD;
-  --color-brand-xlight: #9AD0E6;
-  --color-tint: #E9F4FA;
-  --color-tint-2: #F3FAFD;
-  --color-emergency: #E63A4B;
-  --color-emergency-dark: #C8283A;
-  --color-emergency-tint: #FDECEE;
-  --color-ink: #0E2A38;
-  --color-ink-soft: #2B4655;
-  --color-muted-text: #5E7888;
-  --color-line: #E3EDF3;
-  --color-line-2: #EEF4F8;
-  --color-surface: #F4F9FC;
+  /* Blue: brand and main action */
+  --color-brand: #1278AD;          /* logo blue. White text on it: 4.87:1 */
+  --color-brand-dark: #01618F;     /* links, hover of solid blue. On white: 6.76:1 */
+  --color-brand-deeper: #014D73;
+  --color-brand-light: #52A8DE;
+  --color-brand-xlight: #BCE2FD;   /* on navy-900: 12.3:1 */
+  --color-tint: #EFF8FF;           /* blue-50, soft blue surface */
+  --color-tint-2: #DEF1FF;         /* blue-100, pressed or stronger blue surface */
+
+  /* Navy: text and dark surfaces */
+  --color-ink: #051D3E;            /* headings and body. On page: 16:1 */
+  --color-ink-soft: #2B405F;       /* secondary text. On page: 10:1 */
+  --color-muted-text: #5A6678;     /* captions. On page: 5.6:1 */
+  --color-brand-deep: #051D3E;     /* dark section background */
+  --color-navy: #132D53;           /* raised surface on dark sections */
+  --color-on-dark: #CED5DE;        /* body text on dark sections: 11.3:1 */
+  --color-line: #E2E7EE;
+  --color-line-2: #EDF1F6;
+  --color-surface: #FFFFFF;
+
+  /* Sand: warm complement */
+  --color-sand: #FBF6EC;
+  --color-sand-line: #EFE6D3;
+
+  /* Red: emergency only */
+  --color-emergency: #CC2538;      /* White text on it: 5.4:1 */
+  --color-emergency-dark: #B7162D;
+  --color-emergency-tint: #FEEBEA;
+
+  /* Green: WhatsApp only. Navy text on it: 9.5:1 */
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #1FC15C;
+  --color-whatsapp-ink: #021129;
+
+  --shadow-card: 0 1px 2px rgb(5 29 62 / 0.05), 0 10px 28px -14px rgb(5 29 62 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(5 29 62 / 0.06), 0 22px 48px -20px rgb(5 29 62 / 0.28);
+  --shadow-bar: 0 -1px 0 rgb(5 29 62 / 0.06), 0 -12px 32px -12px rgb(5 29 62 / 0.2);
+
+  --ease-out-quint: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root {
-  --background: #F4F9FC;
-  --foreground: #0E2A38;
+  --background: #F8FAFD;
+  --foreground: #051D3E;
   --card: #ffffff;
-  --card-foreground: #0E2A38;
+  --card-foreground: #051D3E;
   --popover: #ffffff;
-  --popover-foreground: #0E2A38;
-  --primary: #1080B0;
+  --popover-foreground: #051D3E;
+  --primary: #1278AD;
   --primary-foreground: #ffffff;
-  --secondary: #E9F4FA;
-  --secondary-foreground: #0C6488;
-  --muted: #F3FAFD;
-  --muted-foreground: #5E7888;
-  --accent: #E9F4FA;
-  --accent-foreground: #08445E;
-  --destructive: #E63A4B;
-  --border: #E3EDF3;
-  --input: #E3EDF3;
-  --ring: #3DA3CD;
-  --chart-1: #1080B0;
-  --chart-2: #E63A4B;
-  --chart-3: #3DA3CD;
-  --chart-4: #0C6488;
-  --chart-5: #9AD0E6;
+  --secondary: #EFF8FF;
+  --secondary-foreground: #01618F;
+  --muted: #F0F4F8;
+  --muted-foreground: #5A6678;
+  --accent: #EFF8FF;
+  --accent-foreground: #014D73;
+  --destructive: #CC2538;
+  --border: #E2E7EE;
+  --input: #E2E7EE;
+  --ring: #1278AD;
+  --chart-1: #1278AD;
+  --chart-2: #CC2538;
+  --chart-3: #52A8DE;
+  --chart-4: #01618F;
+  --chart-5: #BCE2FD;
   --radius: 0.75rem;
-  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
   --sidebar: #ffffff;
-  --sidebar-foreground: #0E2A38;
-  --sidebar-primary: #1080B0;
+  --sidebar-foreground: #051D3E;
+  --sidebar-primary: #1278AD;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #E9F4FA;
-  --sidebar-accent-foreground: #08445E;
-  --sidebar-border: #E3EDF3;
-  --sidebar-ring: #3DA3CD;
+  --sidebar-accent: #EFF8FF;
+  --sidebar-accent-foreground: #014D73;
+  --sidebar-border: #E2E7EE;
+  --sidebar-ring: #1278AD;
+
+  /* Latin text: Figtree for the interface, Fraunces for headlines. */
+  --stack-sans: var(--font-figtree), var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
+  --stack-heading: var(--font-fraunces), var(--font-plex-arabic), ui-serif, Georgia, serif;
+
+  /* Height of the fixed call bar on phones. Sections and floating UI pad by it. */
+  --call-bar-h: 4.5rem;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+  }
+  html {
+    font-family: var(--stack-sans);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   body {
     @apply bg-background text-foreground antialiased;
+    font-size: 1rem;
+    line-height: 1.6;
   }
-  html {
-    @apply scroll-smooth;
-    font-family: 'Manrope', system-ui, sans-serif;
+  h1, h2 {
+    font-family: var(--stack-heading);
+    font-weight: 560;
+    font-optical-sizing: auto;
+    line-height: 1.06;
+    letter-spacing: -0.022em;
+    color: var(--color-ink);
+    text-wrap: balance;
   }
-  h1, h2, h3, h4 {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+  h3, h4 {
+    font-family: var(--stack-sans);
+    font-weight: 650;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  /* Arabic script needs more leading and no tracking. */
+  [dir="rtl"] :is(h1, h2, h3, h4) {
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  [dir="rtl"] body,
+  [dir="rtl"] {
+    line-height: 1.8;
+  }
+  /* One visible focus ring everywhere, keyboard only. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .on-dark :focus-visible {
+    outline-color: #ffffff;
+  }
+  ::selection {
+    background: var(--color-tint-2);
     color: var(--color-ink);
   }
-  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 {
-    font-family: 'Tajawal', system-ui, sans-serif;
-    letter-spacing: 0;
-  }
-  [dir="rtl"] body {
-    font-family: 'Tajawal', system-ui, sans-serif;
+  a, button {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
-/* Custom animations */
+/*
+ * Arabic: IBM Plex Sans Arabic comes first in both stacks. It has to lead,
+ * because the Latin fonts' metric fallbacks are built on Arial, which carries
+ * Arabic glyphs and would otherwise render the Arabic text. Latin letters and
+ * the brand name still fall through to Figtree.
+ */
+[dir="rtl"] {
+  --stack-sans: var(--font-plex-arabic), var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --stack-heading: var(--font-plex-arabic), var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+/* ───────────────────────── Type scale ───────────────────────── */
+@utility text-display {
+  font-size: clamp(2.375rem, 9.2vw, 4.5rem);
+  line-height: 1.02;
+}
+@utility text-title {
+  font-size: clamp(1.75rem, 6.2vw, 2.875rem);
+  line-height: 1.08;
+}
+@utility text-lead {
+  font-size: clamp(1.0625rem, 2.4vw, 1.1875rem);
+  line-height: 1.55;
+}
+@utility eyebrow {
+  font-family: var(--stack-sans);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-brand-dark);
+}
+
+/* Shared page gutter: 20px on phones, wider from tablet up. */
+@utility shell {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Vertical rhythm between sections. */
+@utility section-y {
+  padding-block: clamp(3.5rem, 9vw, 6.5rem);
+}
+
+/* Tactile press feedback. */
+@utility press {
+  transition-property: scale, background-color, color, border-color, box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: var(--ease-out-quint);
+  &:active {
+    scale: 0.96;
+  }
+}
+
+/* 1px neutral outline so photos sit cleanly on any surface. */
+@utility img-outline {
+  outline: 1px solid rgb(0 0 0 / 0.1);
+  outline-offset: -1px;
+}
+
+/* Phone numbers always read left to right, even inside Arabic text. */
+@utility num {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keeps content clear of the fixed call bar and the iOS home indicator. */
+@utility pb-call-bar {
+  padding-bottom: calc(var(--call-bar-h) + env(safe-area-inset-bottom, 0px));
+  @media (min-width: 64rem) {
+    padding-bottom: 0;
+  }
+}
+
+/* ───────────────────────── Motion ───────────────────────── */
 @keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(1.8); opacity: 0; }
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(2.4); opacity: 0; }
 }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Slow drift for aurora blobs */
-@keyframes aurora-drift {
-  0%   { transform: translate3d(0, 0, 0) scale(1); }
-  33%  { transform: translate3d(4%, -6%, 0) scale(1.08); }
-  66%  { transform: translate3d(-5%, 4%, 0) scale(0.96); }
-  100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-
-/* Animated gradient text / borders */
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Diagonal sheen sweep */
-@keyframes shimmer {
-  0% { transform: translateX(-150%) skewX(-12deg); }
-  100% { transform: translateX(250%) skewX(-12deg); }
-}
-
-/* Soft breathing glow */
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.45; }
-  50% { opacity: 0.9; }
-}
-
-/* 3D vertical-axis spin (rotating beacon) */
-@keyframes spin-y {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
-
-/* Sweeping conic beam (emergency light) */
-@keyframes beam-sweep {
-  to { transform: rotate(360deg); }
-}
-
-/* Chatbot typing dots */
 @keyframes dot-bounce {
   0%, 60%, 100% { transform: translateY(0); }
   30% { transform: translateY(-5px); }
 }
-
-.animate-pulse-ring {
-  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/*
+ * Intro: the logo draws itself. The house appears first, then the stethoscope
+ * runs inside it, which is the whole idea of the brand: care that comes home.
+ * It runs on CSS alone so it starts at first paint, before any script loads,
+ * and the overlay always leaves by itself.
+ */
+@keyframes lm-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes lm-pop {
+  from { opacity: 0; scale: 0.25; }
+  to { opacity: 1; scale: 1; }
+}
+@keyframes lm-beat {
+  0% { opacity: 0.5; scale: 1; }
+  100% { opacity: 0; scale: 3.2; }
+}
+@keyframes intro-rise {
+  from { opacity: 0; translate: 0 10px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes intro-leave {
+  to { translate: 0 -100%; visibility: hidden; }
 }
 
-.animate-float {
-  animation: float 4s ease-in-out infinite;
+@media (prefers-reduced-motion: no-preference) {
+  .animate-pulse-ring {
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 }
 
-.animate-float-delayed {
-  animation: float 4s ease-in-out 1s infinite;
+.intro-overlay {
+  animation: intro-leave 0.6s cubic-bezier(0.7, 0, 0.2, 1) 2.15s forwards;
+}
+.intro-overlay.is-leaving {
+  animation: intro-leave 0.45s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+.intro-overlay .lm-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: lm-draw var(--lm-dur, 0.6s) cubic-bezier(0.65, 0, 0.35, 1) var(--lm-delay, 0s) forwards;
+}
+.intro-overlay .lm-pop {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lm-pop 0.3s var(--ease-out-quint) var(--lm-delay, 0s) forwards;
+}
+.intro-overlay .lm-beat {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lm-beat 0.7s ease-out var(--lm-delay, 0s) forwards;
+}
+.intro-overlay .intro-rise {
+  opacity: 0;
+  animation: intro-rise 0.5s var(--ease-out-quint) var(--lm-delay, 0s) forwards;
+}
+/* Returning visitors in the same session skip the intro before first paint. */
+.intro-seen .intro-overlay {
+  display: none;
 }
 
-.animate-float-delayed-2 {
-  animation: float 4s ease-in-out 2s infinite;
-}
+/* ───────────── Legacy helpers still used by the chatbot ───────────── */
+.shadow-soft { box-shadow: 0 1px 2px rgb(5 29 62 / 0.05), 0 6px 16px -10px rgb(5 29 62 / 0.16); }
+.shadow-card { box-shadow: var(--shadow-card); }
+.shadow-float { box-shadow: var(--shadow-lift); }
 
-.animate-aurora {
-  animation: aurora-drift 22s ease-in-out infinite;
-}
-.animate-aurora-slow {
-  animation: aurora-drift 30s ease-in-out infinite;
-}
-.animate-glow-pulse {
-  animation: glow-pulse 4s ease-in-out infinite;
-}
-.animate-spin-y {
-  animation: spin-y 2.6s linear infinite;
-  transform-style: preserve-3d;
-}
-.animate-beam {
-  animation: beam-sweep 2.6s linear infinite;
-}
-
-/* ───────────────────────── Premium utilities ───────────────────────── */
-
-/* Animated gradient headline text */
-.text-gradient-brand {
-  background-image: linear-gradient(110deg, var(--color-brand-dark), var(--color-brand), var(--color-brand-light), var(--color-brand));
-  background-size: 220% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-shift 6s ease-in-out infinite;
-}
-
-/* Glassmorphism surface (light) */
-.glass {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 14px 40px -18px rgba(10, 68, 94, 0.35);
-}
-
-/* Glass surface on dark sections */
-.glass-dark {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-/* Subtle grid overlay (for hero / dark bands) */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, rgba(16, 128, 176, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(16, 128, 176, 0.07) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
-.bg-grid-light {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-/* Dotted texture */
-.bg-dots {
-  background-image: radial-gradient(rgba(16, 128, 176, 0.12) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-
-/* Radial fade mask (top-centered) */
-.mask-fade {
-  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 60%, transparent 100%);
-  mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 60%, transparent 100%);
-}
-
-/* Elevation scale (consistent shadows) */
-.shadow-soft { box-shadow: 0 6px 20px -10px rgba(10, 68, 94, 0.28); }
-.shadow-card { box-shadow: 0 14px 40px -18px rgba(10, 68, 94, 0.35); }
-.shadow-float { box-shadow: 0 24px 60px -22px rgba(10, 68, 94, 0.45); }
-.shadow-brand-glow { box-shadow: 0 18px 50px -16px rgba(16, 128, 176, 0.5); }
-.shadow-emergency-glow { box-shadow: 0 16px 40px -12px rgba(230, 58, 75, 0.5); }
-
-/* Animated gradient ring/border wrapper */
-.gradient-ring {
-  position: relative;
-}
-.gradient-ring::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: linear-gradient(130deg, var(--color-brand-light), transparent 40%, transparent 60%, var(--color-brand));
-  background-size: 200% 200%;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: gradient-shift 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* Diagonal sheen overlay — apply .sheen on a relative, overflow-hidden parent */
-.sheen::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 60%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
-  transform: translateX(-150%) skewX(-12deg);
-  pointer-events: none;
-}
-.group:hover .sheen::after {
-  animation: shimmer 0.9s ease-out;
-}
-
-/* Respect reduced motion across all custom animations */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -329,15 +380,8 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-pulse-ring,
-  .animate-float,
-  .animate-float-delayed,
-  .animate-float-delayed-2,
-  .animate-aurora,
-  .animate-aurora-slow,
-  .animate-glow-pulse,
-  .animate-spin-y,
-  .animate-beam {
-    animation: none !important;
+  .intro-overlay {
+    display: none;
   }
 }
+

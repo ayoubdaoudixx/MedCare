@@ -1,4 +1,4 @@
-import { Stethoscope } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { ServiceChip } from "./service-chip";
 import { services } from "@/lib/services-data";
 
@@ -21,7 +21,7 @@ function renderContent(text: string): React.ReactNode[] {
         <a
           key={i}
           href={`tel:${cleaned}`}
-          className="text-brand underline font-semibold"
+          className="num text-brand-dark underline underline-offset-2 font-semibold"
         >
           {part}
         </a>
@@ -52,7 +52,7 @@ export function ChatMessage({ role, content }: Props) {
   if (role === "user") {
     return (
       <div className="flex justify-end mb-3">
-        <div className="max-w-[78%] bg-brand text-white rounded-2xl rounded-br-sm px-4 py-2.5 text-sm leading-relaxed shadow-soft">
+        <div className="max-w-[78%] bg-brand text-white rounded-2xl rounded-ee-sm px-4 py-2.5 text-[0.9375rem] leading-relaxed whitespace-pre-wrap break-words">
           {content}
         </div>
       </div>
@@ -64,11 +64,14 @@ export function ChatMessage({ role, content }: Props) {
 
   return (
     <div className="flex items-end gap-2 mb-3">
-      <div className="w-7 h-7 rounded-full bg-brand flex items-center justify-center text-white flex-shrink-0">
-        <Stethoscope className="w-3.5 h-3.5" />
+      <div
+        className="grid size-7 place-items-center rounded-full bg-tint-2 text-brand-dark flex-shrink-0"
+        aria-hidden="true"
+      >
+        <MessageCircle className="size-3.5" />
       </div>
       <div className="max-w-[82%] flex flex-col gap-1.5">
-        <div className="bg-white rounded-2xl rounded-bl-sm px-4 py-2.5 shadow-soft border border-line text-sm text-ink leading-relaxed whitespace-pre-wrap">
+        <div className="bg-white rounded-2xl rounded-es-sm px-4 py-2.5 ring-1 ring-line text-[0.9375rem] text-ink leading-relaxed whitespace-pre-wrap break-words">
           {renderContent(content)}
         </div>
         {detectedService && (

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { I18nProvider } from "@/lib/i18n-context";
-import { Topbar } from "@/components/sections/topbar";
 import { Header } from "@/components/sections/header";
 import { Footer } from "@/components/sections/footer";
+import { MobileCallBar } from "@/components/sections/mobile-call-bar";
 import { ServicePage } from "@/components/services/service-page";
 import { getService, services } from "@/lib/services-data";
 
@@ -25,11 +25,11 @@ export async function generateMetadata({
   const service = getService(slug);
 
   if (!service) {
-    return { title: "Service introuvable — MEDCARE" };
+    return { title: "Service introuvable · MedCare" };
   }
 
-  const title = `${service.name} — MEDCARE`;
-  const description = `${service.tagline} MEDCARE intervient partout au Maroc, 24h/24 et 7j/7.`;
+  const title = `${service.name} · MedCare`;
+  const description = `${service.tagline} MedCare se déplace à Casablanca et dans sa région, 24h/24 et 7j/7.`;
 
   return {
     title,
@@ -56,10 +56,10 @@ export default async function Page({
 
   return (
     <I18nProvider>
-      <Topbar />
       <Header />
       <ServicePage service={service} />
       <Footer />
+      <MobileCallBar />
     </I18nProvider>
   );
 }

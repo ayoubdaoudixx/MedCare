@@ -1,31 +1,26 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n-context";
-import { AppIcon } from "@/components/ui/app-icon";
-import { WhatsAppIcon } from "@/components/ui/social-icons";
+import { CallLink, WhatsAppLink } from "@/components/ui/cta";
 
+// Fixed at the bottom of every page on phones and tablets. It is part of the
+// server-rendered HTML and needs no script to work, so a visitor can call
+// before fonts, images or animations have loaded. It also stays above the
+// intro overlay.
 export function MobileCallBar() {
   const { t } = useI18n();
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white/95 backdrop-blur-md border-t border-line shadow-[0_-8px_30px_-10px_rgba(8,60,90,0.15)]">
-      <div className="flex">
-        <a
-          href="tel:+212626216568"
-          className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-emergency text-white font-['Plus_Jakarta_Sans'] font-bold text-[15px]"
-        >
-          <AppIcon name="PhoneCalling" className="w-[18px] h-[18px]" />
-          <span>{t("mc_call")}</span>
-        </a>
-        <a
-          href="https://wa.me/212626216568"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#25D366] text-white font-['Plus_Jakarta_Sans'] font-bold text-[15px]"
-        >
-          <WhatsAppIcon className="w-[18px] h-[18px]" />
-          <span>{t("mc_wa")}</span>
-        </a>
+    <div
+      role="region"
+      aria-label={t("nav_contact")}
+      className="fixed inset-x-0 bottom-0 z-[70] border-t border-line bg-white/95 shadow-[var(--shadow-bar)] backdrop-blur-md lg:hidden"
+    >
+      <div className="mx-auto grid max-w-xl grid-cols-2 gap-2.5 px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
+        <CallLink place="bar" withNumber={false} className="min-h-[3.25rem] px-3" />
+        <WhatsAppLink place="bar" className="min-h-[3.25rem] px-3">
+          {t("whatsapp")}
+        </WhatsAppLink>
       </div>
     </div>
   );

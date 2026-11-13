@@ -1,43 +1,64 @@
 "use client";
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 interface ScrollRevealProps {
   children: ReactNode;
+  /** Seconds to wait before this block starts. */
   delay?: number;
   className?: string;
   direction?: "up" | "left" | "right";
+  /**
+   * Reveal the direct children one after another instead of the block as a
+   * whole. Use it on lists and grids.
+   */
+  stagger?: boolean;
 }
 
-export function ScrollReveal({ children, delay = 0, className = "", direction = "up" }: ScrollRevealProps) {
-  const variants = {
-    hidden: {
-      opacity: 0,
-      y: direction === "up" ? 40 : 0,
-      x: direction === "left" ? -40 : direction === "right" ? 40 : 0,
+// Fades content up as it enters the viewport. Content stays fully visible for
+// visitors who ask for reduced motion and when scripts do not run.
+export function ScrollReveal({
+  children,
+  delay = 0,
+  className = "",
+  direction = "up",
+  stagger = false,
+}: ScrollRevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el) return;
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const targets = stagger ? Array.from(el.children) : el;
+        // Opacity only: `visibility: hidden` would stop the browser from
+        // lazy-loading the images inside the block.
+        gsap.from(targets, {
+          opacity: 0,
+          y: direction === "up" ? 24 : 0,
+          x: direction === "left" ? -24 : direction === "right" ? 24 : 0,
+          duration: 0.6,
+          delay,
+          ease: "power3.out",
+          stagger: stagger ? 0.08 : 0,
+          clearProps: "transform,opacity",
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+        });
+      });
     },
-    visible: {
-      opacity: 1,
-      y: 0,
-      x: 0,
-      transition: {
-        duration: 0.7,
-        delay,
-        ease: [0.22, 0.61, 0.36, 1] as [number, number, number, number],
-      },
-    },
-  };
+    { scope: ref }
+  );
 
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-8%" }}
-      variants={variants}
-      className={className}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -29,12 +29,11 @@ export function useChatbot() {
     sessionId.current = createSessionId();
   }, []);
 
-  // Reset unread when opening
-  useEffect(() => {
-    if (isOpen) setUnreadCount(0);
-  }, [isOpen]);
-
-  const toggleOpen = useCallback(() => setIsOpen((v) => !v), []);
+  // Opening or closing the panel means the visitor has seen what was unread.
+  const toggleOpen = useCallback(() => {
+    setIsOpen((v) => !v);
+    setUnreadCount(0);
+  }, []);
 
   const clearChat = useCallback(() => {
     setMessages([]);
@@ -139,7 +138,6 @@ export function useChatbot() {
     isOpen,
     isLoading,
     unreadCount,
-    sessionId: sessionId.current,
     sendMessage,
     toggleOpen,
     clearChat,

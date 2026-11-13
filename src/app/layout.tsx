@@ -1,31 +1,45 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Manrope, Tajawal } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Figtree, Fraunces, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "./globals.css";
 import { MedcareChatbot } from "@/components/chatbot/medcare-chatbot";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-heading",
+// Fraunces carries the headlines, Figtree the interface and body text.
+// IBM Plex Sans Arabic sits in both font stacks, so Arabic glyphs fall back
+// to it automatically wherever they appear.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  axes: ["opsz"],
+  display: "swap",
 });
 
-const manrope = Manrope({
-  variable: "--font-sans",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const tajawal = Tajawal({
-  variable: "--font-arabic",
+const plexArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-plex-arabic",
   subsets: ["arabic"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "MEDCARE — Assistance médicale & soins à domicile au Maroc",
+  title: "MedCare · Ambulance, médecin et soins à domicile à Casablanca",
   description:
-    "Ambulances, médecins, infirmiers et soins à domicile partout au Maroc. Disponible 24h/24, 7j/7.",
+    "Ambulance, médecin, infirmier et garde-malade à domicile. MedCare se déplace à Casablanca et dans sa région, 24h/24 et 7j/7. Devis gratuit.",
 };
+
+export const viewport: Viewport = {
+  themeColor: "#F8FAFD",
+  viewportFit: "cover",
+};
+
+// Runs before first paint: a visitor who already saw the intro in this
+// session goes straight to the page.
+const introSeenScript = `try{if(sessionStorage.getItem("medcare-intro"))document.documentElement.classList.add("intro-seen")}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -35,9 +49,13 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${plusJakarta.variable} ${manrope.variable} ${tajawal.variable} antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${fraunces.variable} ${figtree.variable} ${plexArabic.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introSeenScript }} />
+      </head>
       <body>
         {children}
         <MedcareChatbot />

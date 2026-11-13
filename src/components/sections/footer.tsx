@@ -3,125 +3,78 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n-context";
-import { Separator } from "@/components/ui/separator";
+import { EMAIL, MAILTO_HREF, PHONE_DISPLAY, TEL_HREF, whatsappHref } from "@/lib/contact";
+import { SERVICE_CATALOG } from "@/lib/service-catalog";
 import { AppIcon } from "@/components/ui/app-icon";
-import { FacebookIcon, InstagramIcon, LinkedInIcon, WhatsAppIcon } from "@/components/ui/social-icons";
+import { WhatsAppIcon } from "@/components/ui/social-icons";
 
-const socials = [
-  { name: "Facebook", Icon: FacebookIcon, href: "#" },
-  { name: "Instagram", Icon: InstagramIcon, href: "#" },
-  { name: "LinkedIn", Icon: LinkedInIcon, href: "#" },
-  { name: "WhatsApp", Icon: WhatsAppIcon, href: "https://wa.me/212626216568" },
-];
-
-// Footer "Services" column → each links to its dedicated service page.
-const footerServices = [
-  { key: "s1_t", slug: "ambulance" },
-  { key: "s2_t", slug: "medecin-domicile" },
-  { key: "s3_t", slug: "infirmiere-domicile" },
-  { key: "s5_t", slug: "teleconsultation" },
-  { key: "s7_t", slug: "rapatriement" },
-] as const;
-
-// "Company" column — only "À propos" maps to an existing section for now.
-const footerCompany = [
-  { key: "ft_about_link", href: "/#why" },
-  { key: "ft_team", href: "/#contact" },
-  { key: "ft_careers", href: "/#contact" },
-  { key: "ft_partners", href: "/#coverage" },
-  { key: "ft_blog", href: "/#contact" },
-] as const;
-
+// Footer: the contact details and the nine service pages, nothing else.
+// The bottom padding keeps the last line clear of the fixed call bar on phones.
 export function Footer() {
   const { t } = useI18n();
 
+  const contactRow =
+    "flex min-h-11 items-center gap-3 text-ink-soft transition-colors duration-150 hover:text-brand-dark";
+
   return (
-    <footer className="bg-brand-deep text-white pt-16 pb-6">
-      <div className="max-w-[1240px] mx-auto px-5">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-          {/* Brand */}
-          <div>
-            <Image src="/medcare-logo.png" alt="MEDCARE" width={140} height={36} className="h-9 w-auto mb-4 brightness-0 invert" />
-            <p className="text-brand-xlight/70 text-sm leading-relaxed mb-5">{t("ft_about")}</p>
-            <div className="flex gap-3">
-              {socials.map(({ name, Icon, href }) => (
-                <a
-                  key={name}
-                  href={href}
-                  aria-label={name}
-                  className="group w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand hover:-translate-y-0.5 transition-all duration-300 text-brand-xlight hover:text-white"
+    <footer className="pb-call-bar border-t border-line bg-background">
+      <div className="shell grid gap-10 py-12 lg:grid-cols-[1.1fr_1.4fr_1fr] lg:gap-16 lg:py-16">
+        <div>
+          <Image src="/medcare-logo.png" alt="MedCare" width={485} height={122} className="h-8 w-auto" />
+          <p className="mt-4 max-w-xs text-[0.9375rem] leading-relaxed text-ink-soft">{t("ft_about")}</p>
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-tint px-3 py-1.5 text-sm font-semibold text-brand-dark">
+            <AppIcon name="Clock" className="size-4" />
+            {t("open_247")}
+          </p>
+        </div>
+
+        <nav aria-label={t("ft_services")}>
+          <h2 className="font-sans text-base font-semibold tracking-normal text-ink">{t("ft_services")}</h2>
+          <ul className="mt-2 grid sm:grid-cols-2 sm:gap-x-6">
+            {SERVICE_CATALOG.map((service) => (
+              <li key={service.slug}>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="flex min-h-11 items-center text-[0.9375rem] text-ink-soft transition-colors duration-150 hover:text-brand-dark"
                 >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
-          </div>
+                  {t(service.title)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-          {/* Services */}
-          <div>
-            <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-base mb-4">{t("ft_services")}</h4>
-            <ul className="space-y-2.5">
-              {footerServices.map(({ key, slug }) => (
-                <li key={key}>
-                  <Link href={`/services/${slug}`} className="text-brand-xlight/70 text-sm hover:text-white transition-colors">
-                    {t(key as any)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-base mb-4">{t("ft_company")}</h4>
-            <ul className="space-y-2.5">
-              {footerCompany.map(({ key, href }) => (
-                <li key={key}>
-                  <Link href={href} className="text-brand-xlight/70 text-sm hover:text-white transition-colors">
-                    {t(key as any)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-['Plus_Jakarta_Sans'] font-bold text-base mb-4">{t("ft_contact")}</h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2.5 text-brand-xlight/70 text-sm">
-                <AppIcon name="MapPin" className="w-4 h-4 mt-0.5 shrink-0 text-brand-xlight" />
-                <span>{t("ft_addr")}</span>
-              </li>
-              <li className="flex items-center gap-2.5 text-sm">
-                <AppIcon name="Phone" className="w-4 h-4 shrink-0 text-brand-xlight" />
-                <a href="tel:+212626216568" className="text-brand-xlight/70 hover:text-white transition-colors">
-                  {t("ft_phone")}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5 text-sm">
-                <AppIcon name="Mail" className="w-4 h-4 shrink-0 text-brand-xlight" />
-                <a href="mailto:doccaremed@gmail.com" className="text-brand-xlight/70 hover:text-white transition-colors">
-                  {t("ft_email")}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5 text-brand-xlight/70 text-sm">
-                <AppIcon name="Clock" className="w-4 h-4 shrink-0 text-brand-xlight" />
-                <span>{t("tb_hours")}</span>
-              </li>
-            </ul>
-          </div>
+        <div>
+          <h2 className="font-sans text-base font-semibold tracking-normal text-ink">{t("ft_contact")}</h2>
+          <ul className="mt-2 text-[0.9375rem]">
+            <li>
+              <a href={TEL_HREF} className={contactRow}>
+                <AppIcon name="Phone" className="size-5 shrink-0 text-brand" />
+                <span className="font-semibold text-ink">{PHONE_DISPLAY}</span>
+              </a>
+            </li>
+            <li>
+              <a href={whatsappHref(t("wa_generic"))} target="_blank" rel="noopener noreferrer" className={contactRow}>
+                <WhatsAppIcon className="size-5 shrink-0 text-[#1FA855]" />
+                <span>{t("whatsapp")}</span>
+              </a>
+            </li>
+            <li>
+              <a href={MAILTO_HREF} className={contactRow}>
+                <AppIcon name="Mail" className="size-5 shrink-0 text-brand" />
+                <span className="break-all">{EMAIL}</span>
+              </a>
+            </li>
+            <li className="flex min-h-11 items-center gap-3 text-ink-soft">
+              <AppIcon name="MapPin" className="size-5 shrink-0 text-brand" />
+              <span>{t("ft_city")}</span>
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <Separator className="bg-white/10" />
-
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-brand-xlight/50 text-sm">
-          <span>{t("ft_rights")}</span>
-          <div className="flex gap-5">
-            <a href="#" className="hover:text-white transition-colors">{t("ft_legal")}</a>
-            <a href="#" className="hover:text-white transition-colors">{t("ft_privacy")}</a>
-          </div>
-        </div>
+      <div className="border-t border-line">
+        <p className="shell py-5 text-sm text-muted-text">{t("ft_rights")}</p>
       </div>
     </footer>
   );

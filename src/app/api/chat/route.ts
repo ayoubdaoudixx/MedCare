@@ -2,7 +2,13 @@ import Groq from "groq-sdk";
 import { services } from "@/lib/services-data";
 import { buildSystemPrompt } from "@/lib/chatbot-system-prompt";
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+// Created on first use, so the site still builds and runs on a machine that
+// has no GROQ_API_KEY. Without the key only this endpoint returns an error.
+let groqClient: Groq | null = null;
+function getGroq(): Groq {
+  groqClient ??= new Groq({ apiKey: process.env.GROQ_API_KEY });
+  return groqClient;
+}
 
 // In-memory rate limiting: max 20 messages per sessionId per hour
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -63,7 +69,7 @@ export async function POST(request: Request) {
 
     const systemPrompt = buildSystemPrompt(services);
 
-    const groqStream = await groq.chat.completions.create({
+    const groqStream = await getGroq().chat.completions.create({
       model: "qwen/qwen3.8-27b",
       messages: [{ role: "system", content: systemPrompt }, ...sanitizedMessages],
       stream: true,

@@ -1,47 +1,52 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { I18nProvider } from "@/lib/i18n-context";
 import { IntroSplash } from "@/components/sections/intro-splash";
 import { INTRO_DONE_EVENT } from "@/components/chatbot/medcare-chatbot";
-import { Topbar } from "@/components/sections/topbar";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
+import { Statement } from "@/components/sections/statement";
 import { Services } from "@/components/sections/services";
 import { EmergencyBand } from "@/components/sections/emergency-band";
 import { Steps } from "@/components/sections/steps";
 import { WhyUs } from "@/components/sections/why-us";
 import { Coverage } from "@/components/sections/coverage";
-import { Testimonials } from "@/components/sections/testimonials";
+import { Faq } from "@/components/sections/faq";
 import { FinalCta } from "@/components/sections/final-cta";
 import { Footer } from "@/components/sections/footer";
+import { MobileCallBar } from "@/components/sections/mobile-call-bar";
 
 export default function Home() {
+  // `revealed`: the intro has started to lift, the hero can animate in.
+  // `introDone`: the intro is gone and can be unmounted.
+  const [revealed, setRevealed] = useState(false);
   const [introDone, setIntroDone] = useState(false);
+
+  const handleReveal = useCallback(() => setRevealed(true), []);
   const handleIntroComplete = useCallback(() => {
     setIntroDone(true);
-    if (typeof window !== "undefined") {
-      window.__medcareIntroDone = true;
-      window.dispatchEvent(new Event(INTRO_DONE_EVENT));
-    }
+    window.__medcareIntroDone = true;
+    window.dispatchEvent(new Event(INTRO_DONE_EVENT));
   }, []);
 
   return (
     <I18nProvider>
-      {!introDone && <IntroSplash onComplete={handleIntroComplete} />}
-      <Topbar />
+      {!introDone && <IntroSplash onReveal={handleReveal} onComplete={handleIntroComplete} />}
       <Header />
-      <main>
-        <Hero />
+      <main id="contenu">
+        <Hero ready={revealed} />
+        <Statement />
         <Services />
         <EmergencyBand />
         <Steps />
         <WhyUs />
         <Coverage />
-        <Testimonials />
+        <Faq />
         <FinalCta />
       </main>
       <Footer />
+      <MobileCallBar />
     </I18nProvider>
   );
 }

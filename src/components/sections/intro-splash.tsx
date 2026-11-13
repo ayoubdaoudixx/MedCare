@@ -1,226 +1,117 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { useI18n } from "@/lib/i18n-context";
+import { PHONE_DISPLAY, TEL_HREF } from "@/lib/contact";
+import { LogoMark } from "@/components/ui/logo-mark";
 
-function Particles() {
-  const particles = Array.from({ length: 40 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 1,
-    duration: Math.random() * 3 + 2,
-    delay: Math.random() * 2,
-    opacity: Math.random() * 0.5 + 0.1,
-  }));
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full bg-brand-xlight"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [p.opacity, p.opacity * 2, p.opacity],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
+interface IntroSplashProps {
+  /** The overlay starts lifting: the page underneath can animate in. */
+  onReveal: () => void;
+  /** The overlay is gone and can be unmounted. */
+  onComplete: () => void;
 }
 
-function PulseRings() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-      {[0, 1, 2].map((i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full border border-brand-xlight/20"
-          initial={{ width: 160, height: 160, opacity: 0 }}
-          animate={{
-            width: [160, 500],
-            height: [160, 500],
-            opacity: [0.4, 0],
-          }}
-          transition={{
-            duration: 2.5,
-            delay: i * 0.8,
-            repeat: Infinity,
-            ease: "easeOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
+const SEEN_KEY = "medcare-intro";
+/** Matches the CSS: the overlay starts lifting at 2.15s and takes 0.6s. */
+const DRAW_MS = 2150;
+const EXIT_MS = 600;
+const SKIP_EXIT_MS = 450;
 
-export function IntroSplash({ onComplete }: { onComplete: () => void }) {
-  const [phase, setPhase] = useState<"enter" | "spin" | "exit">("enter");
+// The logo draws itself once per session, then lifts away. The animation is
+// pure CSS (see globals.css), so it plays before scripts load. This component
+// only handles skipping and tells the page when the intro is over.
+// On phones the call bar stays above the overlay, so calling is never blocked.
+export function IntroSplash({ onReveal, onComplete }: IntroSplashProps) {
+  const { t } = useI18n();
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const revealedRef = useRef(false);
+  const doneRef = useRef(false);
+
+  const reveal = useCallback(() => {
+    if (revealedRef.current) return;
+    revealedRef.current = true;
+    try {
+      window.sessionStorage.setItem(SEEN_KEY, "1");
+    } catch {
+      // Storage blocked: the intro simply plays again next time.
+    }
+    onReveal();
+  }, [onReveal]);
+
+  const finish = useCallback(() => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    reveal();
+    onComplete();
+  }, [reveal, onComplete]);
+
+  const skip = useCallback(() => {
+    if (revealedRef.current) return;
+    overlayRef.current?.classList.add("is-leaving");
+    reveal();
+    window.setTimeout(finish, SKIP_EXIT_MS);
+  }, [reveal, finish]);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("spin"), 300);
-    const t2 = setTimeout(() => setPhase("exit"), 3200);
-    const t3 = setTimeout(() => onComplete(), 4000);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+    const alreadySeen = document.documentElement.classList.contains("intro-seen");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (alreadySeen || reducedMotion) {
+      finish();
+      return;
+    }
+    const revealTimer = window.setTimeout(reveal, DRAW_MS);
+    const finishTimer = window.setTimeout(finish, DRAW_MS + EXIT_MS);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Enter" || e.key === " ") skip();
     };
-  }, [onComplete]);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(finishTimer);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [reveal, finish, skip]);
 
   return (
-    <AnimatePresence>
-      {phase !== "exit" ? (
-        <motion.div
-          className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden"
-          style={{
-            background: "#E9F4FA",
-          }}
-          exit={{
-            opacity: 0,
-            scale: 1.1,
-            filter: "blur(10px)",
-            transition: { duration: 0.8, ease: [0.22, 0.61, 0.36, 1] },
-          }}
-        >
-          {/* Background effects */}
-          <Particles />
-          <PulseRings />
-
-          {/* Ambient glow behind logo */}
-          <motion.div
-            className="absolute w-[300px] h-[300px] rounded-full"
-            style={{
-              background: "radial-gradient(circle, rgba(16,128,176,0.3) 0%, transparent 70%)",
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.5, 0.8, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+    <div
+      ref={overlayRef}
+      className="intro-overlay fixed inset-0 z-[60] flex flex-col items-center justify-center bg-white"
+    >
+      <button
+        type="button"
+        onClick={skip}
+        aria-label={t("intro_skip")}
+        className="absolute inset-0 cursor-default"
+      />
+      <div className="pointer-events-none relative flex flex-col items-center px-6 pb-24 text-center lg:pb-0">
+        <LogoMark className="w-28 sm:w-32" />
+        <div className="intro-rise mt-7" style={{ "--lm-delay": "1.25s" } as React.CSSProperties}>
+          <Image
+            src="/medcare-logo.png"
+            alt="MedCare"
+            width={485}
+            height={122}
+            priority
+            className="mx-auto h-8 w-auto"
           />
-
-          {/* 3D Logo Container */}
-          <div className="relative" style={{ perspective: "1000px" }}>
-            <motion.div
-              initial={{ rotateY: -90, scale: 0.3, opacity: 0 }}
-              animate={
-                phase === "spin"
-                  ? {
-                      rotateY: [0, 360],
-                      scale: 1,
-                      opacity: 1,
-                    }
-                  : {
-                      rotateY: 0,
-                      scale: 1,
-                      opacity: 1,
-                    }
-              }
-              transition={
-                phase === "spin"
-                  ? {
-                      rotateY: {
-                        duration: 2.5,
-                        ease: "easeInOut",
-                      },
-                      scale: { duration: 0.8, ease: [0.22, 0.61, 0.36, 1] },
-                      opacity: { duration: 0.5 },
-                    }
-                  : {
-                      duration: 0.8,
-                      ease: [0.22, 0.61, 0.36, 1],
-                    }
-              }
-              style={{
-                transformStyle: "preserve-3d",
-              }}
-            >
-              {/* Glow effect under logo */}
-              <motion.div
-                className="absolute -inset-8 rounded-3xl"
-                style={{
-                  background: "radial-gradient(circle, rgba(16,128,176,0.4) 0%, transparent 70%)",
-                  filter: "blur(20px)",
-                }}
-                animate={{
-                  opacity: [0.4, 0.7, 0.4],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-
-              {/* Logo image */}
-              <motion.div
-                className="relative"
-                animate={{
-                  filter: [
-                    "drop-shadow(0 0 20px rgba(16,128,176,0.5))",
-                    "drop-shadow(0 0 40px rgba(16,128,176,0.8))",
-                    "drop-shadow(0 0 20px rgba(16,128,176,0.5))",
-                  ],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Image
-                  src="/medcare3d.webp"
-                  alt="MEDCARE"
-                  width={220}
-                  height={220}
-                  className="relative z-10 w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] object-contain"
-                  priority
-                />
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* Tagline */}
-          <motion.p
-            className="absolute bottom-[22%] text-black text-sm sm:text-base font-['Plus_Jakarta_Sans'] font-medium tracking-[0.2em] uppercase"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-          >
-            Assistance médicale 24/7
-          </motion.p>
-
-          {/* Loading bar */}
-          <div className="absolute bottom-[15%] w-48 h-[3px] bg-white/10 rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-gradient-to-r from-brand via-brand-light to-brand-xlight rounded-full"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 2.8, delay: 0.3, ease: "easeInOut" }}
-            />
-          </div>
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
+        </div>
+        <p
+          className="intro-rise mt-4 font-heading text-xl text-ink-soft"
+          style={{ "--lm-delay": "1.45s" } as React.CSSProperties}
+        >
+          {t("intro_tagline")}
+        </p>
+      </div>
+      {/* Desktop has no call bar, so the number is shown here during the intro. */}
+      <a
+        href={TEL_HREF}
+        className="absolute bottom-8 hidden items-center gap-2 rounded-full px-4 py-2 text-sm text-muted-text hover:text-ink lg:inline-flex"
+      >
+        <span>{t("intro_urgent")}</span>
+        <span className="font-semibold text-ink">{PHONE_DISPLAY}</span>
+      </a>
+    </div>
   );
 }
