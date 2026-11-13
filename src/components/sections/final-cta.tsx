@@ -160,7 +160,7 @@ export function FinalCta({ defaultService }: { defaultService?: string }) {
   const preview = useWhatsAppMessage(message);
 
   return (
-    <section id="contact" className="bg-white pb-14 lg:pb-24">
+    <section id="contact" data-quiet-zone className="bg-white pb-14 lg:pb-24">
       <div className="shell">
         <ScrollReveal className="rounded-[1.75rem] bg-tint px-3 py-8 sm:px-8 lg:grid lg:grid-cols-[0.8fr_1.2fr] lg:gap-14 lg:px-12 lg:py-14">
           {/* On wide screens the heading stays in view while the form scrolls. */}

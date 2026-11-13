@@ -42,7 +42,8 @@ export function WhyUs() {
         </div>
 
         <RevealImage
-          src="/garde-malade.webp"
+          src="/hero-care.webp"
+          focus="40% 40%"
           alt={t("why_img_alt")}
           sizes="(max-width: 1024px) 100vw, 46vw"
           className="aspect-[4/3] rounded-[1.75rem] lg:aspect-[5/6]"

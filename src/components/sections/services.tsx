@@ -26,8 +26,9 @@ function ServiceCard({ service }: { service: CatalogService }) {
       <RevealImage
         src={service.image}
         alt=""
+        focus={service.focus}
         sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 380px"
-        className="aspect-[3/2] rounded-[0.875rem]"
+        className="aspect-square rounded-[0.875rem]"
       >
         {service.slug === "ambulance" && (
           <span className="absolute start-3 top-3 z-[2] rounded-full bg-emergency px-2.5 py-1 text-xs font-semibold text-white">

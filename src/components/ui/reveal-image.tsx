@@ -23,6 +23,7 @@ export function RevealImage({
   sizes,
   priority = false,
   play = true,
+  focus,
   className,
   children,
 }: {
@@ -32,6 +33,8 @@ export function RevealImage({
   priority?: boolean;
   /** Set to false to hold the reveal, for example until an intro has finished. */
   play?: boolean;
+  /** Where the subject sits, as "x% y%": the crop keeps that point in view. */
+  focus?: string;
   /** Classes for the frame: aspect ratio, radius, background. */
   className?: string;
   /** Overlays drawn above the photo (badges, captions). */
@@ -85,6 +88,7 @@ export function RevealImage({
           placeholder={placeholder ? "blur" : "empty"}
           blurDataURL={placeholder}
           className="object-cover"
+          style={focus ? { objectPosition: focus } : undefined}
         />
       </div>
       <span

@@ -96,9 +96,9 @@ export function Steps() {
         <div className="lg:sticky lg:top-28 lg:self-start">
           <ChatDemo
             messages={[
-              { from: "visitor", text: t("hero_chat_in") },
+              { from: "visitor", text: t("sp_1") },
               { from: "medcare", text: t("chat_2") },
-              { from: "visitor", text: t("chat_3") },
+              { from: "visitor", text: t("sp_3") },
               { from: "medcare", text: t("chat_4") },
             ]}
           />

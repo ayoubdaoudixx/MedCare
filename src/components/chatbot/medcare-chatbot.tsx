@@ -56,12 +56,18 @@ function subscribeToScroll(onChange: () => void) {
     window.removeEventListener("resize", onChange);
   };
 }
+// True while the visitor is reading or filling something that needs the
+// corner of the screen (the hero story, the request form).
+function inQuietZone() {
+  for (const zone of document.querySelectorAll("[data-quiet-zone]")) {
+    const box = zone.getBoundingClientRect();
+    if (box.top < window.innerHeight && box.bottom > 0) return true;
+  }
+  return false;
+}
 function triggerAllowed() {
   if (window.innerWidth >= 1024) return true;
-  if (window.scrollY <= window.innerHeight * 0.6) return false;
-  // Stay out of the way while the visitor fills in the request form.
-  const form = document.getElementById("contact")?.getBoundingClientRect();
-  return !form || form.top > window.innerHeight || form.bottom < 0;
+  return window.scrollY > window.innerHeight * 0.6 && !inQuietZone();
 }
 
 function subscribeToIntro(onChange: () => void) {
@@ -90,6 +96,7 @@ export function MedcareChatbot() {
   );
   const introReady = pathname !== "/" || introDone;
   const showTrigger = useSyncExternalStore(subscribeToScroll, triggerAllowed, () => false);
+  const quiet = useSyncExternalStore(subscribeToScroll, inQuietZone, () => true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -315,7 +322,7 @@ export function MedcareChatbot() {
       <div className={FLOATING}>
         {/* Dismissible help bubble */}
         <AnimatePresence>
-          {!isOpen && showTrigger && showHelpBubble && (
+          {!isOpen && showTrigger && !quiet && showHelpBubble && (
             <motion.div
               key="help-bubble"
               initial={{ opacity: 0, y: 10, scale: 0.9 }}

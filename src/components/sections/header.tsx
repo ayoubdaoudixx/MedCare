@@ -9,6 +9,7 @@ import { SERVICE_CATALOG } from "@/lib/service-catalog";
 import { AppIcon } from "@/components/ui/app-icon";
 import { CallLink, WhatsAppLink } from "@/components/ui/cta";
 import { Sheet, SheetClose, SheetContent, SheetTitle } from "@/components/ui/sheet";
+import { PromoBanner } from "@/components/sections/promo-banner";
 import type { DictKey } from "@/lib/i18n";
 
 const NAV: { href: string; label: DictKey }[] = [
@@ -47,6 +48,8 @@ export function Header() {
       >
         {t("skip_link")}
       </a>
+
+      <PromoBanner />
 
       <header className="sticky top-0 z-50 border-b border-line bg-white/92 backdrop-blur-md">
         <div className="shell flex h-16 items-center justify-between gap-3 lg:h-[4.5rem]">

@@ -7,6 +7,7 @@ import type { ServiceData } from "@/lib/services-data";
 import { PRICING_DISCLAIMER } from "@/lib/services-data";
 import { PRICING_DISCLAIMER_AR, getServiceAr } from "@/lib/services-data-ar";
 import { SERVICE_PAGE_COPY } from "@/lib/service-page-copy";
+import { SERVICE_CATALOG } from "@/lib/service-catalog";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n-context";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
@@ -20,18 +21,18 @@ import { FinalCta } from "@/components/sections/final-cta";
 // Photo shown in the hero of each service page, keyed by slug. The alt texts
 // live in service-page-copy.ts, next to the other interface strings.
 const SERVICE_PHOTOS: Record<string, string> = {
-  "ambulance": "/ambulance.webp",
-  "medecin-domicile": "/medecin-domicile.webp",
-  "infirmiere-domicile": "/infirmiere-a-domicile.webp",
-  "garde-malade": "/garde-malade.webp",
-  "teleconsultation": "/teleconsultation.webp",
-  "prelevement-analyses": "/prelevement-analyses.webp",
-  "rapatriement": "/rapatriement.webp",
-  "equipe-evenementielle": "/equipe-evenementielle.webp",
-  "personne-agee": "/personne-agee.webp",
+  "ambulance": "/service-ambulance.webp",
+  "medecin-domicile": "/service-medecin-domicile.webp",
+  "infirmiere-domicile": "/service-infirmiere-domicile.webp",
+  "garde-malade": "/service-garde-malade.webp",
+  "teleconsultation": "/service-teleconsultation.webp",
+  "prelevement-analyses": "/service-prelevement-analyses.webp",
+  "rapatriement": "/service-rapatriement.webp",
+  "equipe-evenementielle": "/service-equipe-evenementielle.webp",
+  "personne-agee": "/service-personne-agee.webp",
 };
 
-const FALLBACK_PHOTO = "/infirmiere-a-domicile.webp";
+const FALLBACK_PHOTO = "/service-infirmiere-domicile.webp";
 
 const CARD = "rounded-2xl bg-white ring-1 ring-line";
 const ICON_TILE = "grid size-11 shrink-0 place-items-center rounded-xl bg-tint text-brand";
@@ -100,6 +101,8 @@ export function ServicePage({ service: source }: { service: ServiceData }) {
   const photo = {
     src: SERVICE_PHOTOS[service.slug] ?? FALLBACK_PHOTO,
     alt: photoAlts[service.slug] ?? copy.photoAltFallback,
+    // Same crop point as on the home page cards.
+    focus: SERVICE_CATALOG.find((item) => item.slug === service.slug)?.focus ?? "50% 40%",
   };
   const pricingDisclaimer = lang === "ar" ? PRICING_DISCLAIMER_AR : PRICING_DISCLAIMER;
   const whatsappMessage = t("wa_service", { service: service.name });
@@ -166,7 +169,9 @@ export function ServicePage({ service: source }: { service: ServiceData }) {
               </p>
             </div>
 
-            <div className="img-outline relative aspect-[4/3] overflow-hidden rounded-3xl bg-tint-2">
+            {/* The photos are portraits: a tall frame on phones and desktops,
+                a shorter one on tablets, cropped around the faces. */}
+            <div className="img-outline relative aspect-[4/5] overflow-hidden rounded-3xl bg-tint-2 sm:aspect-[4/3] lg:aspect-[4/5]">
               <Image
                 src={photo.src}
                 alt={photo.alt}
@@ -174,6 +179,7 @@ export function ServicePage({ service: source }: { service: ServiceData }) {
                 priority
                 sizes="(min-width: 64rem) 34rem, 100vw"
                 className="object-cover"
+                style={{ objectPosition: photo.focus }}
               />
             </div>
           </div>
